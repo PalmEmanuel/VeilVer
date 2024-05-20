@@ -1,34 +1,36 @@
 function Set-VVVersion {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true)]
-        [string]$DocumentPath,
+        [Parameter(Mandatory)]
+        [ValidateScript({ Test-Path $_ -PathType Leaf }, ErrorMessage = 'Path must exist and be a file.')]
+        [string]$Path,
 
-        [Parameter(Mandatory=$true)]
-        [string]$TagName,
+        [Parameter(Mandatory)]
+        [version]$Version,
 
-        [Parameter(Mandatory=$true)]
-        [string]$TagMessage,
-
-        [Parameter(Mandatory=$false)]
-        [string]$Author = "Unknown"
+        [Parameter(Mandatory)]
+        [hashtable]$VersionData
     )
 
-    # Ensure git is available
-    if (-not (Get-Command "git" -ErrorAction SilentlyContinue)) {
-        Write-Error "Git is not available. Please install Git to use this command."
-        return
+    try {
+
+        Test-GitInstallation
+    
+        # Get root of repo
+        $GitArguments = "rev-parse", "--show-toplevel"
+        $RepoRoot = Invoke-GitCommand $GitArguments
+        Push-Location $RepoRoot
+
+        # Get the relative path of the file from the root of the repo
+        $TagName = "VV/$((Resolve-Path $Path -Relative).TrimStart('.\').TrimStart('./'))/v$Version"
+        Write-Verbose "Tag name: $TagName"
+    
+        # Tag the file with the version data as json in the tag message
+        $GitArguments = "tag", "-a", $TagName, $(git hash-object -t blob $Path), "-m", "'$($VersionData | ConvertTo-Json -Compress)'"
+        Invoke-GitCommand $GitArguments
+
+        Write-Verbose "Tag '$TagName' has been created or updated for document '$Path'."
+    } finally {
+        Pop-Location
     }
-
-    # Create or update git tag for document
-    $DocSHA = git ls-tree HEAD $DocumentPath --object-only
-    if (-not $DocSHA) {
-        Write-Error "Document not found in the current git repository."
-        return
-    }
-
-    # Tag file with message
-    git tag -a $TagName $(git hash-object -t blob $DocumentPath) -m "author:$Author, message:$TagMessage"
-
-    Write-Host "Tag '$TagName' has been created or updated for document '$DocumentPath'."
 }
