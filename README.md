@@ -4,20 +4,20 @@ The VeilVer PowerShell module provides commands to set and get metadata for docu
 
 ## Commands
 
-### Set-DocumentTag
+### Set-VVVersion
 
 Sets or updates a git tag for a document with specified metadata.
 
 ```powershell
-Set-DocumentTag -DocumentPath <path/to/document> -TagName <tag-name> -TagMessage <message> -Author <author-name>
+Set-VVVersion -DocumentPath <path/to/document> -TagName <tag-name> -TagMessage <message> -Author <author-name>
 ```
 
-### Get-DocumentTag
+### Get-VVVersion
 
 Retrieves git tags and their associated messages for a document.
 
 ```powershell
-Get-DocumentTag -DocumentPath <path/to/document>
+Get-VVVersion -DocumentPath <path/to/document>
 ```
 
 ## Examples
@@ -27,7 +27,7 @@ Get-DocumentTag -DocumentPath <path/to/document>
 To set a tag for `source/docs/Contoso/MyDoc1.md` with version 1.0.2 by Emanuel:
 
 ```powershell
-Set-DocumentTag -DocumentPath ./source/docs/Contoso/MyDoc1.md -TagName "contoso/MyDoc1/v1.0.2" -TagMessage "Updated MyDoc1.md" -Author "Emanuel"
+Set-VVVersion -DocumentPath ./source/docs/Contoso/MyDoc1.md -TagName "contoso/MyDoc1/v1.0.2" -TagMessage "Updated MyDoc1.md" -Author "Emanuel"
 ```
 
 ### Getting Document Tags
@@ -35,7 +35,7 @@ Set-DocumentTag -DocumentPath ./source/docs/Contoso/MyDoc1.md -TagName "contoso/
 To get all tags for `source/docs/Contoso/MyDoc1.md`:
 
 ```powershell
-Get-DocumentTag -DocumentPath ./source/docs/Contoso/MyDoc1.md
+Get-VVVersion -DocumentPath ./source/docs/Contoso/MyDoc1.md
 ```
 
 ## Demo Documents

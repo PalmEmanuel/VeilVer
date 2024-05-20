@@ -1,4 +1,4 @@
-function Get-DocumentTag {
+function Get-VVVersion {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
@@ -26,7 +26,7 @@ function Get-DocumentTag {
     }
 }
 
-function Set-DocumentTag {
+function Set-VVVersion {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
