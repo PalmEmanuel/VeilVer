@@ -1,4 +1,4 @@
-function Get-DocumentTag {
+function Get-VVVersion {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
@@ -21,9 +21,7 @@ function Get-DocumentTag {
         $Tags = git tag -l --format='%(refname:short)' --sort=-creatordate "$TagName*"
         foreach ($Tag in $Tags) {
             $TagMessage = git tag -l --format='%(contents)' $Tag | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
-            Write-Host "$Tag: $TagMessage"
+            Write-Host "$Tag : $TagMessage"
         }
     }
 }
-
-Export-ModuleMember -Function Get-DocumentTag

@@ -1,4 +1,4 @@
-function Set-DocumentTag {
+function Set-VVVersion {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
@@ -32,5 +32,3 @@ function Set-DocumentTag {
 
     Write-Host "Tag '$TagName' has been created or updated for document '$DocumentPath'."
 }
-
-Export-ModuleMember -Function Set-DocumentTag
