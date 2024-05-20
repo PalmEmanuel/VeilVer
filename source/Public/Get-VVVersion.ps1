@@ -1,19 +1,15 @@
 function Get-VVVersion {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true)]
-        [string]$DocumentPath
+        [Parameter(Mandatory)]
+        [string]$Path
     )
 
-    # Ensure git is available
-    if (-not (Get-Command "git" -ErrorAction SilentlyContinue)) {
-        Write-Error "Git is not available. Please install Git to use this command."
-        return
-    }
+    Test-GitInstallation
 
     # Get all names that the file has had by looking at commits that have changed the file
     # Automatically sorted by most recent (current) name first
-    $FileNames = git log --format="" --name-only --follow -- $DocumentPath | Select-Object -Unique
+    $FileNames = git log --format="" --name-only --follow -- $Path | Select-Object -Unique
 
     # Get all tags based on file names
     foreach ($File in $FileNames) {

@@ -7,7 +7,7 @@
     ModuleVersion = '1.0.0'
     
     # Supported PSEditions
-    CompatiblePSEditions = 'Core', 'Desktop'
+    CompatiblePSEditions = 'Core'
     
     # ID used to uniquely identify this module
     GUID = '339b4ae4-24af-4a90-9991-e6c2c53c84c5'
@@ -25,7 +25,7 @@
     Description = 'A PowerShell module for individual versioning of files in a git repository using hidden blob tags.'
     
     # Minimum version of the PowerShell engine required by this module
-    PowerShellVersion = '5.1'
+    PowerShellVersion = '7.0'
     
     # Name of the PowerShell host required by this module
     # PowerShellHostName = ''
