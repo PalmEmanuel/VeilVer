@@ -24,20 +24,20 @@ Get-DocumentTag -DocumentPath <path/to/document>
 
 ### Setting a Document Tag
 
-To set a tag for `docs/Contoso/MyDoc1.md` with version 1.0.2 by Emanuel:
+To set a tag for `source/docs/Contoso/MyDoc1.md` with version 1.0.2 by Emanuel:
 
 ```powershell
-Set-DocumentTag -DocumentPath ./docs/Contoso/MyDoc1.md -TagName "contoso/MyDoc1/v1.0.2" -TagMessage "Updated MyDoc1.md" -Author "Emanuel"
+Set-DocumentTag -DocumentPath ./source/docs/Contoso/MyDoc1.md -TagName "contoso/MyDoc1/v1.0.2" -TagMessage "Updated MyDoc1.md" -Author "Emanuel"
 ```
 
 ### Getting Document Tags
 
-To get all tags for `docs/Contoso/MyDoc1.md`:
+To get all tags for `source/docs/Contoso/MyDoc1.md`:
 
 ```powershell
-Get-DocumentTag -DocumentPath ./docs/Contoso/MyDoc1.md
+Get-DocumentTag -DocumentPath ./source/docs/Contoso/MyDoc1.md
 ```
 
 ## Demo Documents
 
-Demo documents for testing VeilVer module commands can be found in the `Demo/docs` directory. This includes documents for both Contoso and Fabrikam examples.
+Demo documents for testing VeilVer module commands can be found in the `demo/docs` directory. This includes documents for both Contoso and Fabrikam examples.
