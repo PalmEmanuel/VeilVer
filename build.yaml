@@ -8,8 +8,6 @@ SourcePath: ../source/VeilVer.psd1
 OutputDirectory: ../../output/VeilVer
 # BuiltModuleSubdirectory: module
 CopyPaths:
-  # - ..source/en-US
-  - ../source/
   - ../LICENSE
   - ../CHANGELOG.md
 

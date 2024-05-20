@@ -1,7 +1,7 @@
 @{
 
     # Script module or binary module file associated with this manifest.
-    RootModule = 'VeilVer.psm1'
+    # RootModule = 'VeilVer.psm1'
     
     # Version number of this module.
     ModuleVersion = '1.0.0'
@@ -25,7 +25,7 @@
     Description = 'A PowerShell module for individual versioning of files in a git repository using hidden blob tags.'
     
     # Minimum version of the PowerShell engine required by this module
-    # PowerShellVersion = '7.2'
+    PowerShellVersion = '5.1'
     
     # Name of the PowerShell host required by this module
     # PowerShellHostName = ''
