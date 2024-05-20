@@ -40,4 +40,4 @@ Get-DocumentTag -DocumentPath ./docs/Contoso/MyDoc1.md
 
 ## Demo Documents
 
-Demo documents for testing VeilVer module commands can be found in the `VeilVer/Demo/docs` directory. This includes documents for both Contoso and Fabrikam examples.
+Demo documents for testing VeilVer module commands can be found in the `Demo/docs` directory. This includes documents for both Contoso and Fabrikam examples.
