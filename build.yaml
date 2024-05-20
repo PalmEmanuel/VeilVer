@@ -4,6 +4,9 @@
 ####################################################
 # Path to the Module Manifest to build (where path will be resolved from)
 SourcePath: ../source/VeilVer.psd1
+SourceDirectories:
+- Private
+- Public
 # Output Directory where ModuleBuilder will build the Module, relative to module manifest
 OutputDirectory: ../../output/VeilVer
 # BuiltModuleSubdirectory: module

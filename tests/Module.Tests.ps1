@@ -44,9 +44,7 @@ Describe "$ModuleName" {
         }
         
         It 'has command <Command> defined in file in the correct directory' -TestCases $CommandTestCases {
-            $CommandFileName = $Command -replace '-'
-            
-            "$BuildRoot\source\$ModuleName.PS\Cmdlets\$CommandFileName.cs" | Should -Exist
+            (Get-ChildItem "$BuildRoot\source\*\$Command.ps1") | Should -Not -BeNullOrEmpty
         }
 
         It 'has test file for command <Command>' -TestCases $CommandTestCases {
