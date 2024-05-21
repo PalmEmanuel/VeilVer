@@ -4,7 +4,7 @@ The format is based on and uses the types of changes according to [Keep a Change
 
 ## [Unreleased]
 
-## [1.0.1] - 2024-05-21
+## [1.0.2] - 2024-05-21
 
 ### Added
 
@@ -19,7 +19,9 @@ The format is based on and uses the types of changes according to [Keep a Change
 -   Added the PowerShell module `Sampler` for common workflow with other modules.
 -   Added Pester tests.
 
-[Unreleased]: https://github.com/PalmEmanuel/VeilVer/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/PalmEmanuel/VeilVer/compare/v1.0.2...HEAD
+
+[1.0.2]: https://github.com/PalmEmanuel/VeilVer/compare/v1.0.1...v1.0.2
 
 [1.0.1]: https://github.com/PalmEmanuel/VeilVer/compare/v1.0.0...v1.0.1
 
