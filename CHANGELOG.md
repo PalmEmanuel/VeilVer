@@ -9,3 +9,4 @@ The format is based on and uses the types of changes according to [Keep a Change
 - Added `Get-VVVersion` function to get the hidden version of a document.
 - Added `Set-VVVersion` function to set the hidden version of a document.
 - Added the PowerShell module `Sampler` for common workflow with other modules.
+- Added Pester tests.
