@@ -95,6 +95,7 @@
                 'version'
                 'metadata'
                 'tags'
+                'blob'
             )
     
             # A URL to the license for this module.
@@ -104,7 +105,7 @@
             ProjectUri = 'https://github.com/PalmEmanuel/VeilVer'
     
             # A URL to an icon representing this module.
-            # IconUri = ''
+            IconUri = 'https://raw.githubusercontent.com/PalmEmanuel/VeilVer/main/images/VeilVer.png'
     
             # ReleaseNotes of this module
             # ReleaseNotes = ''
