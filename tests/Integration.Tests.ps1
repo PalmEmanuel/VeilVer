@@ -1,11 +1,8 @@
-BeforeAll {
-    # Set up a temporary git repository before tests
-    Set-Location -Path $TestDrive
-    git init
-}
-
 Describe "Integration Tests for Get- and Set-VVVersion" {
     BeforeAll {
+        # Set up a temporary git repository before tests
+        Set-Location -Path $TestDrive
+        git init
         # Create a new file in the temporary repository
         $FilePath = Join-Path -Path $TestDrive -ChildPath "testfile.txt"
         Set-Content -Path $FilePath -Value "Test content"
