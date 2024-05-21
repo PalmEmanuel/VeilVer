@@ -1,6 +1,8 @@
-# VeilVer PowerShell Module
+# VeilVer - Hidden Git File Versioning
 
-The VeilVer PowerShell module provides commands to set and get metadata for documents within a repository using git tags. This functionality is particularly useful for managing document versions and metadata in a structured and accessible manner.
+<img src="./images/veilver.png" width="256">
+
+The VeilVer PowerShell module provides commands to set and get hidden versions with metadata for files within a repository using git blob tags.
 
 ## Commands
 
@@ -19,25 +21,3 @@ Retrieves git tags and their associated messages for a document.
 ```powershell
 Get-VVVersion -Path <path/to/document>
 ```
-
-## Examples
-
-### Setting a Document Tag
-
-To set a tag for `source/docs/Contoso/MyDoc1.md` with version 1.0.2 by Emanuel:
-
-```powershell
-Set-VVVersion -DocumentPath ./source/docs/Contoso/MyDoc1.md -TagName "contoso/MyDoc1/v1.0.2" -TagMessage "Updated MyDoc1.md" -Author "Emanuel"
-```
-
-### Getting Document Tags
-
-To get all tags for `source/docs/Contoso/MyDoc1.md`:
-
-```powershell
-Get-VVVersion -DocumentPath ./source/docs/Contoso/MyDoc1.md
-```
-
-## Demo Documents
-
-Demo documents for testing VeilVer module commands can be found in the `demo/docs` directory. This includes documents for both Contoso and Fabrikam examples.
