@@ -9,7 +9,7 @@ The VeilVer PowerShell module provides commands to set and get metadata for docu
 Sets or updates a git tag for a document with specified metadata.
 
 ```powershell
-Set-VVVersion -DocumentPath <path/to/document> -TagName <tag-name> -TagMessage <message> -Author <author-name>
+Set-VVVersion -Path <path/to/document> -Version <semantic-version> -Metadata <metadata-hashtable>
 ```
 
 ### Get-VVVersion
@@ -17,7 +17,7 @@ Set-VVVersion -DocumentPath <path/to/document> -TagName <tag-name> -TagMessage <
 Retrieves git tags and their associated messages for a document.
 
 ```powershell
-Get-VVVersion -DocumentPath <path/to/document>
+Get-VVVersion -Path <path/to/document>
 ```
 
 ## Examples

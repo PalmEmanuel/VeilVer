@@ -9,28 +9,32 @@ function Set-VVVersion {
         [version]$Version,
 
         [Parameter(Mandatory)]
-        [hashtable]$VersionData
+        [hashtable]$Metadata
     )
 
-    try {
+    Push-Location (Get-GitRepoRoot)
 
-        Test-GitInstallation
-    
-        # Get root of repo
-        $GitArguments = "rev-parse", "--show-toplevel"
-        $RepoRoot = Invoke-GitCommand $GitArguments
-        Push-Location $RepoRoot
+    # Get the relative path of the file from the root of the repo and trim start
+    $RelativePath = (Resolve-Path $Path -Relative).TrimStart('.\').TrimStart('./')
+    $TagName = "VV/$RelativePath/v$Version"
 
-        # Get the relative path of the file from the root of the repo
-        $TagName = "VV/$((Resolve-Path $Path -Relative).TrimStart('.\').TrimStart('./'))/v$Version"
-        Write-Verbose "Tag name: $TagName"
-    
-        # Tag the file with the version data as json in the tag message
-        $GitArguments = "tag", "-a", $TagName, $(git hash-object -t blob $Path), "-m", "'$($VersionData | ConvertTo-Json -Compress)'"
-        Invoke-GitCommand $GitArguments
-
-        Write-Verbose "Tag '$TagName' has been created or updated for document '$Path'."
-    } finally {
-        Pop-Location
+    # Ensure that the file has no pending changes, since we are tagging the file content together with the commit and don't want any discrepancies
+    if (Test-GitFileIsModified -Path $RelativePath) {
+        Write-Warning "The file '$RelativePath' has been modified. Please commit the changes before setting the version."
+        return
     }
+
+    # Set extra metadata for the tag
+    if ($Metadata.ContainsKey('Commit')) { Write-Warning "The 'Commit' key is reserved and will be overwritten." }
+    $Metadata['Commit'] = Get-GitCurrentCommit
+    
+    # Assemble metadata, convert to JSON and then to Base64
+    $JsonMetadata = $Metadata | ConvertTo-Json -Compress -Depth 20
+    $Base64Metadata = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($JsonMetadata))
+
+    # Tag the file with the version data as json in the tag message
+    $BlobHash = Invoke-GitCommand 'hash-object', '-t', 'blob', $Path
+    Invoke-GitCommand 'tag', '-a', $TagName, $BlobHash, '-m', $Base64Metadata -ErrorAction Stop
+
+    Write-Verbose "Hidden tag '$TagName' has been created for '$RelativePath'."
 }

@@ -14,7 +14,7 @@ Gets the hidden version of a document.
 ## SYNTAX
 
 ```
-Get-VVVersion [-DocumentPath] <String> [<CommonParameters>]
+Get-VVVersion [-Path] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -32,9 +32,9 @@ Gets the hidden version of the document at "C:\path\to\document.md".
 
 ## PARAMETERS
 
-### -DocumentPath
+### -Path
 
-Specifies the path to the document.
+The path to the document to get the hidden versions of.
 
 ```yaml
 Type: String

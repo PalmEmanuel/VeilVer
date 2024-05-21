@@ -14,7 +14,7 @@ Sets the hidden version of a document.
 ## SYNTAX
 
 ```
-Set-VVVersion [-DocumentPath] <String> [-TagName] <String> [-TagMessage] <String> [[-Author] <String>]
+Set-VVVersion [-Path] <String> [-Version] <Version> [-Metadata] <Hashtable>
  [<CommonParameters>]
 ```
 
@@ -33,25 +33,25 @@ Sets the hidden version of the document at "C:\path\to\document.md" to "v1.0.0" 
 
 ## PARAMETERS
 
-### -Author
+### -Metadata
 
-Specifies the author of the version.
+The metadata to set with the document version.
 
 ```yaml
-Type: String
+Type: Hashtable
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: 3
+Required: True
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DocumentPath
+### -Path
 
-Specifies the path to the document.
+The path to the document to set the hidden versions of.
 
 ```yaml
 Type: String
@@ -65,28 +65,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -TagMessage
+### -Version
 
-Specifies the message for the tag.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -TagName
-
-Specifies the name of the tag.
+The semantic version of the document to set.
 
 ```yaml
-Type: String
+Type: Version
 Parameter Sets: (All)
 Aliases:
 
