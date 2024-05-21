@@ -6,8 +6,6 @@ The format is based on and uses the types of changes according to [Keep a Change
 
 ## [1.0.2] - 2024-05-21
 
-## [1.0.1] - 2024-05-21
-
 ### Added
 
 -   Added icon to the module.
