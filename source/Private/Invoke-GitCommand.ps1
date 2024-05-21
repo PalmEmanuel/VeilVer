@@ -1,8 +1,11 @@
 function Invoke-GitCommand {
     [CmdletBinding()]
     param(
+        [Parameter(Mandatory)]
         [string[]]$Arguments
     )
+
+    Test-GitInstallation -ErrorAction Stop
 
     Write-Verbose "Invoking 'git $Arguments'."
 

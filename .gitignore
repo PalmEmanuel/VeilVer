@@ -357,3 +357,5 @@ output/
 *.local.*
 **.bak
 markdownissues.txt
+
+demo.ps1

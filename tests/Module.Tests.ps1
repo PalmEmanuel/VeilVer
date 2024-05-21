@@ -34,6 +34,12 @@ BeforeAll {
 Describe "$ModuleName" {
     # A module should always have exported commands
     Context 'module' {
+        It 'does not use git directly in exported command <Command>' -TestCases $CommandTestCases {
+            (Get-Command $Command).ScriptBlock.Ast.Body.FindAll({ 
+                $args[0].StringConstantType -eq 'BareWord' -and $args[0].Value -eq 'git'
+            }, $true) | Should -BeFalse
+        }
+
         # Tests run on both uncompiled and compiled modules
         It 'has commands' -TestCases (@{ Count = $CommandTestCases.Count }) {
             $Count | Should -BeGreaterThan 0 -Because 'commands should exist'

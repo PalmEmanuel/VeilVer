@@ -2,22 +2,24 @@ function Get-VVVersion {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
+        [ValidateScript({ Test-Path $_ -PathType Leaf }, ErrorMessage = 'Path must exist and be a file.')]
         [string]$Path
     )
 
-    Test-GitInstallation
-
-    # Get all names that the file has had by looking at commits that have changed the file
-    # Automatically sorted by most recent (current) name first
-    $FileNames = git log --format="" --name-only --follow -- $Path | Select-Object -Unique
-
     # Get all tags based on file names
-    foreach ($File in $FileNames) {
-        $TagName = $File -replace '.md', '' -replace 'docs/',''
-        $Tags = git tag -l --format='%(refname:short)' --sort=-creatordate "$TagName*"
-        foreach ($Tag in $Tags) {
-            $TagMessage = git tag -l --format='%(contents)' $Tag | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
-            Write-Host "$Tag : $TagMessage"
-        }
+    $FileNames = Get-GitFileHistoryNames -Path $Path
+    Write-Verbose @"
+Found the following file path(s) of the file through the commit history:
+- $($FileNames -join "`n- ")
+"@
+    $Tags = $FileNames | ForEach-Object {
+        Get-GitBlobTags -RelativeRootPath $_
     }
+
+    if ($Tags.Count -eq 0) {
+        Write-Warning "No hidden version tags found for the file '$Path'."
+        return
+    }
+
+    Write-Output $Tags
 }
