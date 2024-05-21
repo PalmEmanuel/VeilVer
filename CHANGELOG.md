@@ -6,6 +6,8 @@ The format is based on and uses the types of changes according to [Keep a Change
 
 ## [1.0.1] - 2024-05-21
 
+## [1.0.1] - 2024-05-21
+
 ### Added
 
 -   Added icon to the module.
@@ -20,6 +22,8 @@ The format is based on and uses the types of changes according to [Keep a Change
 -   Added Pester tests.
 
 [Unreleased]: https://github.com/PalmEmanuel/VeilVer/compare/v1.0.1...HEAD
+
+[1.0.1]: https://github.com/PalmEmanuel/VeilVer/compare/v1.0.1...v1.0.1
 
 [1.0.1]: https://github.com/PalmEmanuel/VeilVer/compare/v1.0.0...v1.0.1
 
