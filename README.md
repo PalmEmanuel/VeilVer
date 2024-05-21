@@ -1,6 +1,6 @@
 # VeilVer - Hidden Git File Versioning
 
-<img src="./images/veilver.png" width="256">
+<img src="./images/VeilVer.png" width="256">
 
 The VeilVer PowerShell module provides commands to set and get hidden versions with metadata for files within a repository using git blob tags.
 
