@@ -4,6 +4,7 @@ Describe "Integration Tests for Get- and Set-VVVersion" {
         Set-Location -Path $TestDrive
         git init
 
+        # Needs to be set for the commit to work on all platforms in pipeline
         git config user.name "VeilVer"
         git config user.email "veilver@pipe.how"
 
