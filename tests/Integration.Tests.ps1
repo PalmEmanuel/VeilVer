@@ -3,6 +3,10 @@ Describe "Integration Tests for Get- and Set-VVVersion" {
         # Set up a temporary git repository before tests
         Set-Location -Path $TestDrive
         git init
+
+        git config user.name "VeilVer"
+        git config user.email "veilver@pipe.how"
+
         # Create a new file in the temporary repository
         $FilePath = Join-Path -Path $TestDrive -ChildPath "testfile.txt"
         Set-Content -Path $FilePath -Value "Test content"
