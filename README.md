@@ -2,6 +2,8 @@
 
 <img src="./images/VeilVer.png" width="256">
 
+[![VeilVer]][VeilVerGallery] [![VeilVerDownloads]][VeilVerGallery]
+
 The VeilVer PowerShell module provides commands to set and get hidden versions with metadata for files within a repository using git blob tags.
 
 ## Commands
@@ -21,3 +23,8 @@ Retrieves git tags and their associated messages for a document.
 ```powershell
 Get-VVVersion -Path <path/to/document>
 ```
+
+<!-- References -->
+[VeilVerDownloads]: https://img.shields.io/powershellgallery/dt/VeilVer
+[VeilVerGallery]: https://www.powershellgallery.com/packages/VeilVer/
+[VeilVer]: https://img.shields.io/powershellgallery/v/VeilVer?label=VeilVer
