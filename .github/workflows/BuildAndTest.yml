@@ -10,12 +10,14 @@ on:
     - synchronize
     paths-ignore:
     - CHANGELOG.md
+    - README.md
 
   push:
     branches:
     - main
     paths-ignore:
     - CHANGELOG.md
+    - README.md
     - .github/**
 
 env:
