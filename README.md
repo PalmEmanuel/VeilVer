@@ -4,7 +4,7 @@
 
 [![VeilVer]][VeilVerGallery] [![VeilVerDownloads]][VeilVerGallery]
 
-The VeilVer PowerShell module provides commands to set and get hidden versions with metadata for files within a repository using git blob tags.
+The VeilVer PowerShell module provides commands to set and get hidden versions with metadata for files within a git repository using git blob tags.
 
 ## Commands
 
