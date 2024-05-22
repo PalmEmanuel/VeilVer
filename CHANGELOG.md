@@ -4,6 +4,10 @@ The format is based on and uses the types of changes according to [Keep a Change
 
 ## [Unreleased]
 
+### Added
+
+- New command `Remove-VVVersion` to remove a hidden version from a file.
+
 ## [1.0.1] - 2024-05-21
 
 ### Added
