@@ -6,6 +6,14 @@
 
 The VeilVer PowerShell module provides commands to set and get hidden versions with metadata for files within a git repository using git blob tags.
 
+## Installation
+
+The module is on PowerShell Gallery and can easily be installed like other modules.
+
+```powershell
+Install-Module -Name VeilVer
+```
+
 ## Commands
 
 ### Set-VVVersion
@@ -22,6 +30,18 @@ Retrieves git tags and their associated messages for a document.
 
 ```powershell
 Get-VVVersion -Path <path/to/document>
+```
+
+### Remove-VVVersion
+
+Removes a specific version from a file.
+
+```powershell
+Remove-VVVersion -Path <path/to/document> -Version <semantic-version>
+```
+
+```powershell
+Remove-VVVersion -Tag <full-git-tag>
 ```
 
 <!-- References -->
