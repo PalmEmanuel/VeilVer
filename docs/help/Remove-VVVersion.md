@@ -5,61 +5,66 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-VVVersion
+# Remove-VVVersion
 
 ## SYNOPSIS
 
-Sets the hidden version of a document.
+Remove a specific version from a file.
 
 ## SYNTAX
 
+### FileVersion (Default)
 ```
-Set-VVVersion [-Path] <String> [-Version] <Version> [-Metadata] <Hashtable>
- [<CommonParameters>]
+Remove-VVVersion -Path <String> -Version <Version> [<CommonParameters>]
+```
+
+### Tag
+```
+Remove-VVVersion -Tag <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
-Sets the hidden version of a document, based on git tags on the blob.
+Remove a specific version from a file.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Set-VVVersion -Path "C:\path\to\document.md" -Version "v1.0.0" -Metadata @{ Comment = "Initial release"; Author = "Emanuel Palm" }
+PS C:\> Remove-VVVersion -Path "C:\path\to\document.md" -Version 1.0.0
 ```
 
-Sets the hidden version of the file at "C:\path\to\document.md" to "v1.0.0" with a comment and an author.
+Remove the version 1.0.0 from the file at the specified path.
 
 ## PARAMETERS
 
-### -Metadata
+### -Path
 
-The metadata to set with the document version.
+The path to the file to remove the hidden version from.
 
 ```yaml
-Type: Hashtable
-Parameter Sets: (All)
+Type: String
+Parameter Sets: FileVersion
 Aliases:
 
 Required: True
-Position: 2
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Path
+### -Tag
 
-The path to the document to set the hidden versions of.
+The full version tag to remove, instead of a specific file and version, such as "VV/path/to/file/v1.0.0"
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Tag
 Aliases:
 
 Required: True
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -67,15 +72,15 @@ Accept wildcard characters: False
 
 ### -Version
 
-The semantic version of the document to set.
+The version to remove from the file.
 
 ```yaml
 Type: Version
-Parameter Sets: (All)
+Parameter Sets: FileVersion
 Aliases:
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

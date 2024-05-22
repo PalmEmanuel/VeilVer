@@ -21,17 +21,24 @@ function Get-GitBlobTags {
 
             # The tag command returns an empty line as part of the tag message, so we need to filter it out
             $JsonData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($Base64Data))
-            $VersionData = $JsonData | ConvertFrom-Json
+            $Metadata = $JsonData | ConvertFrom-Json
 
             [pscustomobject]@{
+                'File' = $RelativeRootPath
+                'Tag' = $Tag
                 'Version' = $TagVersion
-                'Data' = $VersionData
+                'Metadata' = $Metadata
             }
         }
 
     if ($Tags.Count -eq 0) {
         return
     }
+
+    Write-Verbose @"
+Found the following hidden version tag(s) for the path '$RelativeRootPath':
+- $(($Tags | ForEach-Object { $_.Version }) -join "`n- ")
+"@
 
     Write-Output $Tags
 }

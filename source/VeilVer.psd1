@@ -67,6 +67,7 @@
     CmdletsToExport = @(
         'Get-VVVersion'
         'Set-VVVersion'
+        'Remove-VVVersion'
     )
     
     # Variables to export from this module
