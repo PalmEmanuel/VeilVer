@@ -9,10 +9,13 @@ Describe "Integration Tests for Get- and Set-VVVersion" {
         git config user.email "veilver@pipe.how"
 
         # Create a new file in the temporary repository
-        $FilePath = Join-Path -Path $TestDrive -ChildPath "testfile.txt"
+        $FileName = "testfile.txt"
+        $FilePath = Join-Path -Path $TestDrive -ChildPath $FileName
         Set-Content -Path $FilePath -Value "Test content"
         git add .
         git commit -m "Initial commit with test file"
+
+        $SpecialCharacters = '!"#€%&/()=?`_:;*^©@£$∞§|[]≈±´\{}¡¥≠}¢¿@•Ωé®†µüıœπ˙æøﬁªß∂ƒ√ª˛ƒ∂ﬁßåäöÅÄÖ'
     }
 
     It "Creates versions using Set-VVVersion" {
@@ -27,7 +30,7 @@ Describe "Integration Tests for Get- and Set-VVVersion" {
             "Category" = "IntegrationTest"
             "Priority" = "High"
             "ReleaseDate" = "2024-05-21"
-            "ExtraCharacters" = '!"#€%&/()=?`_:;*^©@£$∞§|[]≈±´\{}¡¥≠}¢¿@•Ωé®†µüıœπ˙æøﬁªß∂ƒ√ª˛ƒ∂ﬁßåäöÅÄÖ'
+            "SpecialCharacters" = $SpecialCharacters
         }
         { Set-VVVersion -Path $FilePath -Version "1.0.0" -Metadata $MetadataHash -WarningAction SilentlyContinue } | Should -Not -Throw
         { Set-VVVersion -Path $FilePath -Version "1.2.3" -Metadata $MetadataHash -WarningAction SilentlyContinue } | Should -Not -Throw
@@ -35,7 +38,7 @@ Describe "Integration Tests for Get- and Set-VVVersion" {
         { Set-VVVersion -Path $FilePath -Version "1.1.1" -Metadata $MetadataHash -WarningAction SilentlyContinue } | Should -Not -Throw
     }
 
-    It "Retrieves versions using Get-VVVersion" {
+    It "Retrieves versions in the right order using Get-VVVersion" {
         $Versions = Get-VVVersion -Path $FilePath
         $Versions.Count | Should -Be 4
         # Versions should be in descending version order, regardless of creation order
@@ -43,7 +46,27 @@ Describe "Integration Tests for Get- and Set-VVVersion" {
         $Versions[1].Version.ToString() | Should -Be "1.2.3"
         $Versions[2].Version.ToString() | Should -Be "1.1.1"
         $Versions[3].Version.ToString() | Should -Be "1.0.0"
-        $Versions[0].Data.ExtraCharacters | Should -Be '!"#€%&/()=?`_:;*^©@£$∞§|[]≈±´\{}¡¥≠}¢¿@•Ωé®†µüıœπ˙æøﬁªß∂ƒ√ª˛ƒ∂ﬁßåäöÅÄÖ'
-        $Versions[0].Data.Commit | Should -Be (git rev-parse --verify HEAD)
+    }
+
+    It "Retrieves versions with correct information using Get-VVVersion" {
+        $Versions = Get-VVVersion -Path $FilePath
+        $Versions[0].Metadata.SpecialCharacters | Should -Be $SpecialCharacters
+        $Versions[0].Metadata.Commit | Should -Be (git rev-parse --verify HEAD)
+    }
+
+    It "Removes versions using Remove-VVVersion using Path and Version" {
+        $Versions = Get-VVVersion -Path $FilePath
+        $Versions.Count | Should -Be 4
+        Remove-VVVersion -Path $FilePath -Version "1.0.0"
+        $Versions = Get-VVVersion -Path $FilePath
+        $Versions.Count | Should -Be 3
+    }
+
+    It "Removes versions using Remove-VVVersion using Tag" {
+        $Versions = Get-VVVersion -Path $FilePath
+        $Versions.Count | Should -Be 3
+        Remove-VVVersion -Tag $Versions[1].Tag
+        $Versions = Get-VVVersion -Path $FilePath
+        $Versions.Count | Should -Be 2
     }
 }
