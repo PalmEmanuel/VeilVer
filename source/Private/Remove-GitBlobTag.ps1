@@ -5,5 +5,5 @@ function Remove-GitBlobTag {
         [string]$Tag
     )
 
-    Invoke-GitCommand 'tag', '--delete', $Tag
+    $null = Invoke-GitCommand 'tag', '--delete', $Tag
 }
