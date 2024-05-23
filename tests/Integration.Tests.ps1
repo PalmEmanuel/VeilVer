@@ -69,4 +69,19 @@ Describe "Integration Tests for Get- and Set-VVVersion" {
         $Versions = Get-VVVersion -Path $FilePath
         $Versions.Count | Should -Be 2
     }
+
+    It "Correctly updates git tags after a file rename using Rename-VVVersion" {
+        # Rename the file
+        $NewFileName = "renamed_testfile.txt"
+        $NewFilePath = Join-Path -Path $TestDrive -ChildPath $NewFileName
+        Rename-Item -Path $FilePath -NewName $NewFileName
+
+        # Use Rename-VVVersion to update tags
+        { Rename-VVVersion -FilePath $NewFilePath } | Should -Not -Throw
+
+        # Verify tags are updated
+        $VersionsAfterRename = Get-VVVersion -Path $NewFilePath
+        $VersionsAfterRename.Count | Should -Be 2
+        $VersionsAfterRename.File | Should -Contain $NewFileName
+    }
 }
