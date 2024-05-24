@@ -76,6 +76,9 @@ Describe "Integration Tests for Get- and Set-VVVersion" {
         $NewFilePath = Join-Path -Path $TestDrive -ChildPath $NewFileName
         Rename-Item -Path $FilePath -NewName $NewFileName
 
+        git add $NewFilePath
+        git commit -mm "added new version"
+
         # Use Rename-VVVersion to update tags
         { Rename-VVVersion -FilePath $NewFilePath } | Should -Not -Throw
 
