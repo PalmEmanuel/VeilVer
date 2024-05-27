@@ -23,7 +23,7 @@ function Set-VVVersion {
     }
 
     # Set extra metadata for the tag
-    if ($Metadata.ContainsKey('Commit')) { Write-Warning "The 'Commit' key was provided, and will not be overwritten with current commit." }
+    if ($Metadata.ContainsKey('Commit')) { Write-Warning "The 'Commit' key was provided, and will be used instead of current commit." }
     $Metadata['Commit'] ??= Get-GitCurrentCommit
     
     # Assemble metadata, convert to JSON and then to Base64
