@@ -13,14 +13,15 @@ Gets the hidden version of a document or checks out a version as a file using gi
 
 ## SYNTAX
 
-### Default (Default)
+### Path (Default)
 ```
-Get-VVVersion [-Path] <String> [<CommonParameters>]
+Get-VVVersion -Path <String> [-Version <Version>] [<CommonParameters>]
 ```
 
 ### Checkout
 ```
-Get-VVVersion [-Path] <String> [-Checkout] [-Version] <Version> [<CommonParameters>]
+Get-VVVersion -Path <String> -Version <Version> [-Checkout] [-Force]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -45,22 +46,6 @@ Checks out version 1.2.3 of the document at "C:\path\to\document.md" as a file u
 
 ## PARAMETERS
 
-### -Path
-
-The path to the document to get the hidden versions of or to checkout a version from.
-
-```yaml
-Type: String
-Parameter Sets: Default, Checkout
-Aliases:
-
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Checkout
 
 Indicates that the command should checkout the version as a file using git blob tags.
@@ -77,9 +62,52 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Force
+{{ Fill Force Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Checkout
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Path
+
+The path to the document to get the hidden versions of or to checkout a version from.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Version
 
 Specifies the version to checkout as a file. This parameter is required when using the `-Checkout` parameter.
+
+```yaml
+Type: Version
+Parameter Sets: Path
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ```yaml
 Type: Version
