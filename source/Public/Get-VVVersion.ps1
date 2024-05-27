@@ -41,7 +41,7 @@ function Get-VVVersion {
 
     # If checkout is specified, checkout the version
     if ($Checkout.IsPresent) {
-        if (Test-GitFileIsModified -Path $Path -and -not $Force.IsPresent) {
+        if ((Test-GitFileIsModified -Path $Path) -and -not $Force.IsPresent) {
             throw "The file '$Path' has been modified. Please commit or discard the changes before checking out a version, or override the file using the -Force parameter."
         }
 

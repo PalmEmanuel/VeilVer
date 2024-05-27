@@ -63,7 +63,8 @@ Accept wildcard characters: False
 ```
 
 ### -Force
-{{ Fill Force Description }}
+
+Overwrite the file if there are pending changes.
 
 ```yaml
 Type: SwitchParameter
