@@ -16,33 +16,11 @@ Install-Module -Name VeilVer
 
 ## Commands
 
-### Set-VVVersion
+The module provides the following commands:
 
-Sets or updates a git tag for a document with specified metadata.
-
-```powershell
-Set-VVVersion -Path <path/to/document> -Version <semantic-version> -Metadata <metadata-hashtable>
-```
-
-### Get-VVVersion
-
-Retrieves git tags and their associated messages for a document.
-
-```powershell
-Get-VVVersion -Path <path/to/document>
-```
-
-### Remove-VVVersion
-
-Removes a specific version from a file.
-
-```powershell
-Remove-VVVersion -Path <path/to/document> -Version <semantic-version>
-```
-
-```powershell
-Remove-VVVersion -Tag <full-git-tag>
-```
+- `Get-VVVersion` to get the hidden version of a document.
+- `Set-VVVersion` to set the hidden version of a document.
+- `Remove-VVVersion` to remove a hidden version from a file.
 
 <!-- References -->
 [VeilVerDownloads]: https://img.shields.io/powershellgallery/dt/VeilVer
