@@ -1,4 +1,4 @@
-Describe "Integration Tests for Get- and Set-VVVersion" {
+Describe "Integration Tests" {
     BeforeAll {
         # Set up a temporary git repository before tests
         Set-Location -Path $TestDrive
