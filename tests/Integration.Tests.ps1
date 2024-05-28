@@ -84,8 +84,7 @@ Describe "Integration Tests for Get- and Set-VVVersion" {
         git add .
         git commit -m "Committing version 3"
         Set-VVVersion -Path $FilePath -Version "3.0.0" -Metadata @{ Description = "Specific version 3 for checkout test" }
-
-
+        
         # Verify the file content matches the specific version content before checkout
         Get-Content -Path $FilePath | Should -Be $Version3Content
 
