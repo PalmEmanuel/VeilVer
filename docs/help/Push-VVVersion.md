@@ -5,46 +5,44 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-VVVersion
+# Push-VVVersion
 
 ## SYNOPSIS
-
-Remove a specific version from a file.
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
-### FileVersion (Default)
+### Path (Default)
 ```
-Remove-VVVersion -Path <String> -Version <Version> [<CommonParameters>]
+Push-VVVersion -Path <String> -Version <Version> [-Remote <String>]
+ [<CommonParameters>]
 ```
 
 ### Tag
 ```
-Remove-VVVersion -Tag <String> [<CommonParameters>]
+Push-VVVersion -Tag <String> [-Remote <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-
-Remove a specific version from a file.
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Remove-VVVersion -Path "C:\path\to\document.md" -Version 1.0.0
+PS C:\> {{ Add example code here }}
 ```
 
-Remove the version 1.0.0 from the file at the specified path.
+{{ Add example description here }}
 
 ## PARAMETERS
 
 ### -Path
-
-The path to the file to remove the hidden version from.
+{{ Fill Path Description }}
 
 ```yaml
 Type: String
-Parameter Sets: FileVersion
+Parameter Sets: Path
 Aliases:
 
 Required: True
@@ -54,9 +52,23 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -Tag
+### -Remote
+{{ Fill Remote Description }}
 
-The full version tag to remove, instead of a specific file and version, such as "VV/path/to/file/v1.0.0"
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Tag
+{{ Fill Tag Description }}
 
 ```yaml
 Type: String
@@ -71,12 +83,11 @@ Accept wildcard characters: False
 ```
 
 ### -Version
-
-The version to remove from the file.
+{{ Fill Version Description }}
 
 ```yaml
 Type: Version
-Parameter Sets: FileVersion
+Parameter Sets: Path
 Aliases:
 
 Required: True
@@ -91,7 +102,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
+### System.Version
 ## OUTPUTS
 
 ### System.Object
