@@ -1,14 +1,14 @@
 function Remove-VVVersion {
     [CmdletBinding(DefaultParameterSetName = 'FileVersion')]
     param (
-        [Parameter(Mandatory, ParameterSetName = 'FileVersion')]
+        [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'FileVersion')]
         [ValidateScript({ Test-Path $_ -PathType Leaf }, ErrorMessage = 'Path must exist and be a file.')]
         [string]$Path,
 
-        [Parameter(Mandatory, ParameterSetName = 'FileVersion')]
+        [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'FileVersion')]
         [version]$Version,
 
-        [Parameter(Mandatory, ParameterSetName = 'Tag')]
+        [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'Tag')]
         [string]$Tag
     )
 
