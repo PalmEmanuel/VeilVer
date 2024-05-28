@@ -69,4 +69,29 @@ Describe "Integration Tests for Get- and Set-VVVersion" {
         $Versions = Get-VVVersion -Path $FilePath
         $Versions.Count | Should -Be 2
     }
+
+    It "Checks out a file version with a commit using the -Checkout parameter" {
+        # Create a new version with specific content
+        $Version2Content = "This is a specific version 2 content."
+        $Version3Content = "This is a specific version 3 content."
+
+        Set-Content -Path $FilePath -Value $Version2Content
+        git add .
+        git commit -m "Committing version 2"
+        Set-VVVersion -Path $FilePath -Version "2.0.0" -Metadata @{ Description = "Specific version 2 for checkout test" }
+        
+        Set-Content -Path $FilePath -Value $Version3Content
+        git add .
+        git commit -m "Committing version 3"
+        Set-VVVersion -Path $FilePath -Version "3.0.0" -Metadata @{ Description = "Specific version 3 for checkout test" }
+        
+        # Verify the file content matches the specific version content before checkout
+        Get-Content -Path $FilePath | Should -Be $Version3Content
+
+        # Checkout the version using the -Checkout parameter
+        Get-VVVersion -Path $FilePath -Checkout -Version "2.0.0"
+
+        # Verify the file content matches the specific version content after checkout
+        Get-Content -Path $FilePath | Should -Be $Version2Content
+    }
 }

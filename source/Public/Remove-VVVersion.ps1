@@ -18,7 +18,7 @@ function Remove-VVVersion {
         $FileNames = Get-GitFileHistoryNames -Path $Path
 
         $Tags = $FileNames | ForEach-Object {
-            Get-GitBlobTags -RelativeRootPath $_
+            Get-GitBlobTag -RelativeRootPath $_
         }
 
         $Tag = $Tags | Where-Object { $_.Version -eq $Version } | Select-Object -ExpandProperty Tag
