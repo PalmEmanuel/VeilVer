@@ -4,6 +4,10 @@ The format is based on and uses the types of changes according to [Keep a Change
 
 ## [Unreleased]
 
+### Added
+
+- Added -Checkout parameter to Get-VVVersion
+
 ## [1.1.0] - 2024-05-22
 
 ### Added
