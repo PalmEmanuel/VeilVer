@@ -1,4 +1,4 @@
-function Get-GitDefaultBranchRemote {
+function Get-GitBranchDefaultRemote {
     [CmdletBinding()]
     param (
         [Parameter()]
