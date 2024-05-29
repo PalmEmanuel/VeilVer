@@ -1,24 +1,29 @@
 Describe "Integration Tests" {
     BeforeAll {
-        # Set up a temporary git repository before tests
-        Set-Location -Path $TestDrive
-        git init
+        # Need to set user config for the commits to work on all platforms in pipeline
+        git config --global user.name "VeilVer"
+        git config --global user.email "veilver@pipe.how"
+        # Set default branch name
+        git config --global init.defaultBranch main
 
-        # Needs to be set for the commit to work on all platforms in pipeline
-        git config user.name "VeilVer"
-        git config user.email "veilver@pipe.how"
+        # Set up a temporary git repository before tests
+        New-Item -ItemType Directory -Path "$TestDrive/repo1" -Force
+        New-Item -ItemType Directory -Path "$TestDrive/repo2" -Force
+        Set-Location -Path "$TestDrive/repo2"
+        git init
+        Set-Location -Path "$TestDrive/repo1"
+        git init
 
         # Create a new file in the temporary repository
         $FileName = "testfile.txt"
-        $FilePath = Join-Path -Path $TestDrive -ChildPath $FileName
+        $FilePath = Join-Path -Path "$TestDrive/repo1" -ChildPath $FileName
         Set-Content -Path $FilePath -Value "Test content"
         git add .
         git commit -m "Initial commit with test file"
-
+        git remote add second "$TestDrive/repo2/.git"
+        git push second main
+        
         $SpecialCharacters = '!"#€%&/()=?`_:;*^©@£$∞§|[]≈±´\{}¡¥≠}¢¿@•Ωé®†µüıœπ˙æøﬁªß∂ƒ√ª˛ƒ∂ﬁßåäöÅÄÖ'
-    }
-
-    It "Creates versions using Set-VVVersion" {
         $MetadataHash = @{
             "Author" = "Emanuel Palm"
             "Description" = "Testing the commands"
@@ -32,6 +37,9 @@ Describe "Integration Tests" {
             "ReleaseDate" = "2024-05-21"
             "SpecialCharacters" = $SpecialCharacters
         }
+    }
+
+    It "Creates versions using Set-VVVersion" {
         { Set-VVVersion -Path $FilePath -Version "1.0.0" -Metadata $MetadataHash -WarningAction SilentlyContinue } | Should -Not -Throw
         { Set-VVVersion -Path $FilePath -Version "1.2.3" -Metadata $MetadataHash -WarningAction SilentlyContinue } | Should -Not -Throw
         { Set-VVVersion -Path $FilePath -Version "1.10.1" -Metadata $MetadataHash -WarningAction SilentlyContinue } | Should -Not -Throw
@@ -93,5 +101,33 @@ Describe "Integration Tests" {
 
         # Verify the file content matches the specific version content after checkout
         Get-Content -Path $FilePath | Should -Be $Version2Content
+    }
+
+    It 'Can Push a version to a remote with Path and Version' {
+        # First make sure that the remote has the same commits
+        git push second main
+        git push second --tags
+        $RemoteTagsCountBefore = (git ls-remote --tags second 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
+
+        { Set-VVVersion -Path $FilePath -Version "2.0.0" -Metadata $MetadataHash -WarningAction SilentlyContinue } | Should -Not -Throw
+        { Push-VVVersion -Path $FilePath -Version "2.0.0" -Remote "second" } | Should -Not -Throw
+        
+        $RemoteTagsCountAfter = (git ls-remote --tags second 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
+
+        $RemoteTagsCountAfter | Should -BeExactly ($RemoteTagsCountBefore + 1)
+    }
+
+    It 'Can Push a version to a remote with Path and Version' {
+        # First make sure that the remote has the same commits
+        git push second main
+        git push second --tags
+        $RemoteTagsCountBefore = (git ls-remote --tags second 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
+
+        { Set-VVVersion -Path $FilePath -Version "3.0.0" -Metadata $MetadataHash -WarningAction SilentlyContinue } | Should -Not -Throw
+        { Push-VVVersion -Tag "@VV/$FileName/textfile.txt/v3.0.0" -Remote "second" } | Should -Not -Throw
+        
+        $RemoteTagsCountAfter = (git ls-remote --tags second 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
+
+        $RemoteTagsCountAfter | Should -BeExactly ($RemoteTagsCountBefore + 1)
     }
 }

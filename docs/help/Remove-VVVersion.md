@@ -56,7 +56,7 @@ Accept wildcard characters: False
 
 ### -Tag
 
-The full version tag to remove, instead of a specific file and version, such as "VV/path/to/file/v1.0.0"
+The full version tag to remove, instead of a specific file and version, such as "@VV/path/to/file/v1.0.0"
 
 ```yaml
 Type: String

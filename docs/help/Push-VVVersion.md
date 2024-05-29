@@ -8,7 +8,8 @@ schema: 2.0.0
 # Push-VVVersion
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+
+Pushes a version to a remote repository.
 
 ## SYNTAX
 
@@ -24,21 +25,30 @@ Push-VVVersion -Tag <String> [-Remote <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+
+Pushes a version to a remote repository.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Push-VVVersion -Path "path/to/file.md" -Version 1.0.0
 ```
 
-{{ Add example description here }}
+Pushes the existing version 1.0.0 of the file to the remote repository.
+
+### Example 2
+```powershell
+PS C:\> Push-VVVersion -Tag "@VV/path/to/file.md/v1.0.0"
+```
+
+Pushes the existing version 1.0.0 of the file to the remote repository using the tag.
 
 ## PARAMETERS
 
 ### -Path
-{{ Fill Path Description }}
+
+The path to the file to push the hidden version for.
 
 ```yaml
 Type: String
@@ -53,7 +63,8 @@ Accept wildcard characters: False
 ```
 
 ### -Remote
-{{ Fill Remote Description }}
+
+The remote repository to push the version to.
 
 ```yaml
 Type: String
@@ -68,7 +79,8 @@ Accept wildcard characters: False
 ```
 
 ### -Tag
-{{ Fill Tag Description }}
+
+The full version tag to push, instead of a specific file and version, such as "@VV/path/to/file/v1.0.0"
 
 ```yaml
 Type: String
@@ -83,7 +95,8 @@ Accept wildcard characters: False
 ```
 
 ### -Version
-{{ Fill Version Description }}
+
+The version of the file to push to the remote repository.
 
 ```yaml
 Type: Version
