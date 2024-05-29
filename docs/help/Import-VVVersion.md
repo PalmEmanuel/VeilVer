@@ -14,7 +14,7 @@ schema: 2.0.0
 
 ### All (Default)
 ```
-Import-VVVersion [-Remote <String>] [-All] [-Force] [<CommonParameters>]
+Import-VVVersion [-Remote <String>] [-Force] [<CommonParameters>]
 ```
 
 ### Tag
@@ -36,21 +36,6 @@ PS C:\> {{ Add example code here }}
 {{ Add example description here }}
 
 ## PARAMETERS
-
-### -All
-{{ Fill All Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: All
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -Force
 {{ Fill Force Description }}
