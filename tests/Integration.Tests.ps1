@@ -1,24 +1,31 @@
 Describe "Integration Tests" {
     BeforeAll {
-        # Set up a temporary git repository before tests
-        Set-Location -Path $TestDrive
-        git init
+        # Need to set user config for the commits to work on all platforms in pipeline
+        git config --global user.name "VeilVer"
+        git config --global user.email "veilver@pipe.how"
+        # Set default branch name
+        git config --global init.defaultBranch main
 
-        # Needs to be set for the commit to work on all platforms in pipeline
-        git config user.name "VeilVer"
-        git config user.email "veilver@pipe.how"
+        # Set up a temporary git repositories before tests
+        # Repo2 is the remote "origin"
+        # Repo1 is the clone
+        $Repo1 = "$TestDrive/repo1.git"
+        $Repo2 = "$TestDrive/repo2.git"
+        New-Item -ItemType Directory -Path $Repo1 -Force
+        New-Item -ItemType Directory -Path $Repo2 -Force
+        git init --bare $Repo2 --quiet
+        $null = git clone $Repo2 $Repo1 2>&1
+        Set-Location $Repo1
 
         # Create a new file in the temporary repository
         $FileName = "testfile.txt"
-        $FilePath = Join-Path -Path $TestDrive -ChildPath $FileName
+        $FilePath = Join-Path -Path $Repo1 -ChildPath $FileName
         Set-Content -Path $FilePath -Value "Test content"
         git add .
         git commit -m "Initial commit with test file"
-
+        git push --quiet
+        
         $SpecialCharacters = '!"#€%&/()=?`_:;*^©@£$∞§|[]≈±´\{}¡¥≠}¢¿@•Ωé®†µüıœπ˙æøﬁªß∂ƒ√ª˛ƒ∂ﬁßåäöÅÄÖ'
-    }
-
-    It "Creates versions using Set-VVVersion" {
         $MetadataHash = @{
             "Author" = "Emanuel Palm"
             "Description" = "Testing the commands"
@@ -32,6 +39,9 @@ Describe "Integration Tests" {
             "ReleaseDate" = "2024-05-21"
             "SpecialCharacters" = $SpecialCharacters
         }
+    }
+
+    It "Creates versions using Set-VVVersion" {
         { Set-VVVersion -Path $FilePath -Version "1.0.0" -Metadata $MetadataHash -WarningAction SilentlyContinue } | Should -Not -Throw
         { Set-VVVersion -Path $FilePath -Version "1.2.3" -Metadata $MetadataHash -WarningAction SilentlyContinue } | Should -Not -Throw
         { Set-VVVersion -Path $FilePath -Version "1.10.1" -Metadata $MetadataHash -WarningAction SilentlyContinue } | Should -Not -Throw
@@ -93,5 +103,35 @@ Describe "Integration Tests" {
 
         # Verify the file content matches the specific version content after checkout
         Get-Content -Path $FilePath | Should -Be $Version2Content
+    }
+
+    It 'Can Push a version to a default remote with Path and Version' {
+        # First make sure that the remote has the same commits
+        git push origin main --quiet --no-progress
+        git push origin --tags --quiet --no-progress
+        git reset HEAD --hard
+        $RemoteTagsCountBefore = (git ls-remote --tags origin 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
+
+        Set-VVVersion -Path $FilePath -Version "4.0.0" -Metadata $MetadataHash -WarningAction SilentlyContinue
+        { Push-VVVersion -Path $FilePath -Version "4.0.0" } | Should -Not -Throw
+        
+        $RemoteTagsCountAfter = (git ls-remote --tags origin 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
+
+        $RemoteTagsCountAfter | Should -BeExactly ($RemoteTagsCountBefore + 1)
+    }
+
+    It 'Can Push a version to a specific remote with Tag' {
+        # First make sure that the remote has the same commits
+        git push origin main --quiet --no-progress
+        git push origin --tags --quiet --no-progress
+        git reset HEAD --hard
+        $RemoteTagsCountBefore = (git ls-remote --tags origin 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
+
+        Set-VVVersion -Path $FilePath -Version "5.0.0" -Metadata $MetadataHash -WarningAction SilentlyContinue
+        { Push-VVVersion -Tag "@VV/$FileName/v5.0.0" -Remote "origin" } | Should -Not -Throw
+        
+        $RemoteTagsCountAfter = (git ls-remote --tags origin 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
+
+        $RemoteTagsCountAfter | Should -BeExactly ($RemoteTagsCountBefore + 1)
     }
 }

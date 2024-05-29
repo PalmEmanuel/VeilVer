@@ -45,7 +45,6 @@ function Get-VVVersion {
             throw "The file '$Path' has been modified. Please commit or discard the changes before checking out a version, or override the file using the -Force parameter."
         }
 
-        $RelativePath = Get-RelativeRootFilePath -Path $Path
         $TagInfo = $Tags | Where-Object Version -eq $Version
         
         if ($null -eq $TagInfo) {

@@ -7,6 +7,8 @@ The format is based on and uses the types of changes according to [Keep a Change
 ### Added
 
 - Added -Checkout parameter to Get-VVVersion
+- Added command Push-VVVersion to push versions to a remote repository.
+- Added command Import-VVVersion to import versions from a remote repository.
 
 ## [1.1.0] - 2024-05-22
 
