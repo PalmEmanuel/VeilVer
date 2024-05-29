@@ -6,22 +6,24 @@ Describe "Integration Tests" {
         # Set default branch name
         git config --global init.defaultBranch main
 
-        # Set up a temporary git repository before tests
-        New-Item -ItemType Directory -Path "$TestDrive/repo1" -Force
-        New-Item -ItemType Directory -Path "$TestDrive/repo2" -Force
-        Set-Location -Path "$TestDrive/repo2"
-        git init
-        Set-Location -Path "$TestDrive/repo1"
-        git init
+        # Set up a temporary git repositories before tests
+        # Repo2 is the remote "origin"
+        # Repo1 is the clone
+        $Repo1 = "$TestDrive/repo1.git"
+        $Repo2 = "$TestDrive/repo2.git"
+        New-Item -ItemType Directory -Path $Repo1 -Force
+        New-Item -ItemType Directory -Path $Repo2 -Force
+        git init --bare $Repo2 --quiet
+        $null = git clone $Repo2 $Repo1 2>&1
+        Set-Location $Repo1
 
         # Create a new file in the temporary repository
         $FileName = "testfile.txt"
-        $FilePath = Join-Path -Path "$TestDrive/repo1" -ChildPath $FileName
+        $FilePath = Join-Path -Path $Repo1 -ChildPath $FileName
         Set-Content -Path $FilePath -Value "Test content"
         git add .
         git commit -m "Initial commit with test file"
-        git remote add second "$TestDrive/repo2/.git"
-        git push second main
+        git push --quiet
         
         $SpecialCharacters = '!"#€%&/()=?`_:;*^©@£$∞§|[]≈±´\{}¡¥≠}¢¿@•Ωé®†µüıœπ˙æøﬁªß∂ƒ√ª˛ƒ∂ﬁßåäöÅÄÖ'
         $MetadataHash = @{
@@ -103,30 +105,32 @@ Describe "Integration Tests" {
         Get-Content -Path $FilePath | Should -Be $Version2Content
     }
 
-    It 'Can Push a version to a remote with Path and Version' {
+    It 'Can Push a version to a default remote with Path and Version' {
         # First make sure that the remote has the same commits
-        git push second main
-        git push second --tags
-        $RemoteTagsCountBefore = (git ls-remote --tags second 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
+        git push origin main --quiet --no-progress
+        git push origin --tags --quiet --no-progress
+        git reset HEAD --hard
+        $RemoteTagsCountBefore = (git ls-remote --tags origin 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
 
-        { Set-VVVersion -Path $FilePath -Version "2.0.0" -Metadata $MetadataHash -WarningAction SilentlyContinue } | Should -Not -Throw
-        { Push-VVVersion -Path $FilePath -Version "2.0.0" -Remote "second" } | Should -Not -Throw
+        Set-VVVersion -Path $FilePath -Version "4.0.0" -Metadata $MetadataHash -WarningAction SilentlyContinue
+        { Push-VVVersion -Path $FilePath -Version "4.0.0" } | Should -Not -Throw
         
-        $RemoteTagsCountAfter = (git ls-remote --tags second 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
+        $RemoteTagsCountAfter = (git ls-remote --tags origin 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
 
         $RemoteTagsCountAfter | Should -BeExactly ($RemoteTagsCountBefore + 1)
     }
 
-    It 'Can Push a version to a remote with Path and Version' {
+    It 'Can Push a version to a specific remote with Tag' {
         # First make sure that the remote has the same commits
-        git push second main
-        git push second --tags
-        $RemoteTagsCountBefore = (git ls-remote --tags second 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
+        git push origin main --quiet --no-progress
+        git push origin --tags --quiet --no-progress
+        git reset HEAD --hard
+        $RemoteTagsCountBefore = (git ls-remote --tags origin 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
 
-        { Set-VVVersion -Path $FilePath -Version "3.0.0" -Metadata $MetadataHash -WarningAction SilentlyContinue } | Should -Not -Throw
-        { Push-VVVersion -Tag "@VV/$FileName/textfile.txt/v3.0.0" -Remote "second" } | Should -Not -Throw
+        Set-VVVersion -Path $FilePath -Version "5.0.0" -Metadata $MetadataHash -WarningAction SilentlyContinue
+        { Push-VVVersion -Tag "@VV/$FileName/v5.0.0" -Remote "origin" } | Should -Not -Throw
         
-        $RemoteTagsCountAfter = (git ls-remote --tags second 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
+        $RemoteTagsCountAfter = (git ls-remote --tags origin 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
 
         $RemoteTagsCountAfter | Should -BeExactly ($RemoteTagsCountBefore + 1)
     }

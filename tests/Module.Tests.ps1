@@ -9,7 +9,11 @@ BeforeDiscovery {
     $ParametersTestCases = @()
     # Get custom parameters of all exported commands
     foreach ($Command in $ExportedCommands) {
-        $Parameters = (Get-Command $Command).Parameters.GetEnumerator() | Where-Object {
+        $CurrentCommand = Get-Command $Command
+        if ($CurrentCommand.CommandType -eq 'Alias') {
+            continue
+        }
+        $Parameters = $CurrentCommand.Parameters.GetEnumerator() | Where-Object {
             $_.Key -notin [System.Management.Automation.Cmdlet]::CommonParameters -and
             $_.Value.Attributes.DontShow -eq $false
         } | Select-Object -ExpandProperty Key
