@@ -27,7 +27,7 @@ function Push-VVVersion {
     }
 
     # Push the tag to the git remote
-    $null = Invoke-GitCommand 'push', $Remote, 'tag', $Tag
+    $null = Invoke-GitCommand 'push', $Remote, 'tag', $Tag, '--quiet'
 
     Write-Verbose "Pushed tag '$Tag' to remote '$Remote'."
 }

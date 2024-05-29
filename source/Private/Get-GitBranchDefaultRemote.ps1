@@ -3,7 +3,7 @@ function Get-GitBranchDefaultRemote {
     param (
         [Parameter()]
         [ValidateNotNullOrEmpty()]
-        [string]$Branch = (Invoke-GitCommand 'branch' '--show-current')
+        [string]$Branch = (Invoke-GitCommand 'branch', '--show-current')
     )
 
     # Get the default remote of the branch

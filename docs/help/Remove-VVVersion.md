@@ -13,7 +13,7 @@ Remove a specific version from a file.
 
 ## SYNTAX
 
-### FileVersion (Default)
+### Path (Default)
 ```
 Remove-VVVersion -Path <String> -Version <Version> [<CommonParameters>]
 ```
@@ -44,7 +44,7 @@ The path to the file to remove the hidden version from.
 
 ```yaml
 Type: String
-Parameter Sets: FileVersion
+Parameter Sets: Path
 Aliases:
 
 Required: True
@@ -76,7 +76,7 @@ The version to remove from the file.
 
 ```yaml
 Type: Version
-Parameter Sets: FileVersion
+Parameter Sets: Path
 Aliases:
 
 Required: True
