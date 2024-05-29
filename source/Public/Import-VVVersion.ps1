@@ -9,7 +9,7 @@ function Import-VVVersion {
         [Parameter(ParameterSetName = 'Tag')]
         [Parameter(ParameterSetName = 'All')]
         [ValidateNotNullOrEmpty()]
-        [string]$Remote = 'origin',
+        [string]$Remote = (Get-GitDefaultBranchRemote),
 
         [Parameter(ParameterSetName = 'Tag')]
         [Parameter(ParameterSetName = 'All')]

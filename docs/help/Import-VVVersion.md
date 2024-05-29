@@ -8,7 +8,8 @@ schema: 2.0.0
 # Import-VVVersion
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+
+Pull all versions or a specific version from a remote git repository.
 
 ## SYNTAX
 
@@ -24,21 +25,37 @@ Import-VVVersion -Tag <String> [-Remote <String>] [-Force]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+
+Pull all versions or a specific version from a remote git repository.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Import-VVVersion
 ```
 
-{{ Add example description here }}
+Pulls all versions from the remote repository to sync them to the local repository.
+
+### Example 2
+```powershell
+PS C:\> Pull-VVVersion
+```
+
+Uses the alias `Pull-VVVersion` to pull all versions from the remote repository.
+
+### Example 3
+```powershell
+PS C:\> Pull-VVVersion -Tag "@VV/path/to/file/v1.0.0"
+```
+
+Pulls the specific version `1.0.0` from the remote repository.
 
 ## PARAMETERS
 
 ### -Force
-{{ Fill Force Description }}
+
+Overwrite different local versions with the same name(s).
 
 ```yaml
 Type: SwitchParameter
@@ -53,7 +70,8 @@ Accept wildcard characters: False
 ```
 
 ### -Remote
-{{ Fill Remote Description }}
+
+The remote repository to pull versions from, defaults to the default remote of the current git branch.
 
 ```yaml
 Type: String
@@ -68,7 +86,8 @@ Accept wildcard characters: False
 ```
 
 ### -Tag
-{{ Fill Tag Description }}
+
+The specific version to pull from the remote repository.
 
 ```yaml
 Type: String
