@@ -5,42 +5,50 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-VVVersion
+# Push-VVVersion
 
 ## SYNOPSIS
 
-Remove a specific version from a file.
+Pushes a version to a remote repository.
 
 ## SYNTAX
 
 ### Path (Default)
 ```
-Remove-VVVersion -Path <String> -Version <Version> [<CommonParameters>]
+Push-VVVersion -Path <String> -Version <Version> [-Remote <String>]
+ [<CommonParameters>]
 ```
 
 ### Tag
 ```
-Remove-VVVersion -Tag <String> [<CommonParameters>]
+Push-VVVersion -Tag <String> [-Remote <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
-Remove a specific version from a file.
+Pushes a version to a remote repository.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Remove-VVVersion -Path "C:\path\to\document.md" -Version 1.0.0
+PS C:\> Push-VVVersion -Path "path/to/file.md" -Version 1.0.0
 ```
 
-Remove the version 1.0.0 from the file at the specified path.
+Pushes the existing version 1.0.0 of the file to the remote repository.
+
+### Example 2
+```powershell
+PS C:\> Push-VVVersion -Tag "@VV/path/to/file.md/v1.0.0"
+```
+
+Pushes the existing version 1.0.0 of the file to the remote repository using the tag.
 
 ## PARAMETERS
 
 ### -Path
 
-The path to the file to remove the hidden version from.
+The path to the file to push the hidden version for.
 
 ```yaml
 Type: String
@@ -54,9 +62,25 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -Remote
+
+The remote repository to push the version to, defaults to the default remote of the current branch.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Tag
 
-The full version tag to remove, instead of a specific file and version, such as "@VV/path/to/file/v1.0.0"
+The full version tag to push, instead of a specific file and version, such as "@VV/path/to/file/v1.0.0"
 
 ```yaml
 Type: String
@@ -72,7 +96,7 @@ Accept wildcard characters: False
 
 ### -Version
 
-The version to remove from the file.
+The version of the file to push to the remote repository.
 
 ```yaml
 Type: Version
@@ -91,7 +115,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
+### System.Version
 ## OUTPUTS
 
 ### System.Object

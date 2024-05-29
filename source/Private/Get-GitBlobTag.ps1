@@ -28,7 +28,7 @@ function Get-GitBlobTag {
             $Hash = (Invoke-GitCommand 'rev-list', '--objects', $Tag | Where-Object { -not [string]::IsNullOrWhiteSpace($_) -and $_ -notmatch $Tag }).Trim()
 
             [pscustomobject]@{
-                'File' = $RelativeRootPath
+                'Path' = $RelativeRootPath
                 'Tag' = $Tag
                 'Hash' = $Hash
                 'Version' = $TagVersion
