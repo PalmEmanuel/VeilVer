@@ -64,7 +64,7 @@ Accept wildcard characters: False
 
 ### -Remote
 
-The remote repository to push the version to.
+The remote repository to push the version to, defaults to the default remote of the current branch.
 
 ```yaml
 Type: String

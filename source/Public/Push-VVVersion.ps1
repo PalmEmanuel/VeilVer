@@ -17,7 +17,7 @@ function Push-VVVersion {
         [Parameter(ParameterSetName = 'Tag')]
         [Parameter(ParameterSetName = 'Path')]
         [ValidateNotNullOrEmpty()]
-        [string]$Remote = 'origin'
+        [string]$Remote = (Get-GitBranchDefaultRemote)
     )
 
     switch ($PSCmdlet.ParameterSetName) {
