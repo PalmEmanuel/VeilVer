@@ -21,6 +21,8 @@ The module provides the following commands:
 - `Get-VVVersion` to get the hidden version of a document.
 - `Set-VVVersion` to set the hidden version of a document.
 - `Remove-VVVersion` to remove a hidden version from a file.
+- `Import-VVVersion` to pull all versions or a specific version from a remote repository.
+- `Push-VVVersion` to push a version to a remote repository.
 
 <!-- References -->
 [VeilVerDownloads]: https://img.shields.io/powershellgallery/dt/VeilVer
