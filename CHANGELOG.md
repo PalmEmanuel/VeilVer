@@ -4,11 +4,13 @@ The format is based on and uses the types of changes according to [Keep a Change
 
 ## [Unreleased]
 
+## [1.2.0] - 2024-05-30
+
 ### Added
 
-- Added -Checkout parameter to Get-VVVersion
-- Added command Push-VVVersion to push versions to a remote repository.
-- Added command Import-VVVersion to import versions from a remote repository.
+-   Added -Checkout parameter to Get-VVVersion
+-   Added command Push-VVVersion to push versions to a remote repository.
+-   Added command Import-VVVersion to import versions from a remote repository.
 
 ## [1.1.0] - 2024-05-22
 
@@ -31,7 +33,9 @@ The format is based on and uses the types of changes according to [Keep a Change
 -   Added the PowerShell module `Sampler` for common workflow with other modules.
 -   Added Pester tests.
 
-[Unreleased]: https://github.com/PalmEmanuel/VeilVer/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/PalmEmanuel/VeilVer/compare/v1.2.0...HEAD
+
+[1.2.0]: https://github.com/PalmEmanuel/VeilVer/compare/v1.1.0...v1.2.0
 
 [1.1.0]: https://github.com/PalmEmanuel/VeilVer/compare/v1.0.2...v1.1.0
 
