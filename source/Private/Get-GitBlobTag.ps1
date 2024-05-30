@@ -1,4 +1,4 @@
-function Get-GitBlobTags {
+function Get-GitBlobTag {
     [CmdletBinding()]
     param (
         # Does not need to exist anymore, but must be a valid path
@@ -8,7 +8,8 @@ function Get-GitBlobTags {
     )
 
     # Example tag: VV/demo/docs/Contoso/Doc1.md/v1.0.0
-    $TagPattern = "VV/$RelativeRootPath/v*"
+    # Gets the pattern of tags with wildcard
+    $TagPattern = Get-GitBlobTagName -RelativeRootPath $RelativeRootPath -Pattern
 
     # Get tags with version data split by semicolon, sorted by version in descending order
     $Tags = Invoke-GitCommand 'tag', '--list', '--format=%(refname:short);%(contents)', '--sort=-version:refname', $TagPattern |
@@ -23,9 +24,13 @@ function Get-GitBlobTags {
             $JsonData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($Base64Data))
             $Metadata = $JsonData | ConvertFrom-Json
 
+            # Get the hash of the blob that the tag points to / contains
+            $Hash = (Invoke-GitCommand 'rev-list', '--objects', $Tag | Where-Object { -not [string]::IsNullOrWhiteSpace($_) -and $_ -notmatch $Tag }).Trim()
+
             [pscustomobject]@{
-                'File' = $RelativeRootPath
+                'Path' = $RelativeRootPath
                 'Tag' = $Tag
+                'Hash' = $Hash
                 'Version' = $TagVersion
                 'Metadata' = $Metadata
             }
