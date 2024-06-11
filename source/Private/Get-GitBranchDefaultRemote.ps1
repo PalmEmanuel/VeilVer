@@ -9,7 +9,7 @@ function Get-GitBranchDefaultRemote {
     # Get the default remote of the branch
     $DefaultRemote = Invoke-GitCommand 'branch', '--list', $Branch, '--format=%(upstream:remotename)'
     if ([string]::IsNullOrWhiteSpace($DefaultRemote)) {
-        throw "Could not get a remote set for the branch '$Branch'."
+        throw "Did not find a configured remote for the branch '$Branch'."
     }
 
     Write-Output $DefaultRemote

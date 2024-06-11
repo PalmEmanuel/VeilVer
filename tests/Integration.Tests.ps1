@@ -80,24 +80,6 @@ Describe "Integration Tests" {
         $Versions.Count | Should -Be 2
     }
 
-    It "Correctly updates git tags after a file rename using Rename-VVVersion" {
-        # Rename the file
-        $NewFileName = "renamed_testfile.txt"
-        $NewFilePath = Join-Path -Path $TestDrive -ChildPath $NewFileName
-        Rename-Item -Path $FilePath -NewName $NewFileName
-
-        git add $NewFilePath
-        git commit -mm "added new version"
-
-        # Use Rename-VVVersion to update tags
-        { Rename-VVVersion -FilePath $NewFilePath } | Should -Not -Throw
-
-        # Verify tags are updated
-        $VersionsAfterRename = Get-VVVersion -Path $NewFilePath
-        $VersionsAfterRename.Count | Should -Be 2
-        $VersionsAfterRename.File | Should -Contain $NewFileName
-    }
-
     It "Checks out a file version with a commit using the -Checkout parameter" {
         # Create a new version with specific content
         $Version2Content = "This is a specific version 2 content."
@@ -151,5 +133,23 @@ Describe "Integration Tests" {
         $RemoteTagsCountAfter = (git ls-remote --tags origin 'refs/tags/@VV*' | Where-Object { -not $_.EndsWith('^{}') }).Count
 
         $RemoteTagsCountAfter | Should -BeExactly ($RemoteTagsCountBefore + 1)
+    }
+
+    It "Correctly updates git tags after a file rename using Rename-VVVersion" {
+        # Rename the file
+        $NewFileName = "renamed_testfile.txt"
+        $NewFilePath = Join-Path -Path $TestDrive -ChildPath $NewFileName
+        Rename-Item -Path $FilePath -NewName $NewFileName
+
+        git add $NewFilePath
+        git commit -mm "added new version"
+
+        # Use Rename-VVVersion to update tags
+        { Rename-VVVersion -FilePath $NewFilePath } | Should -Not -Throw
+
+        # Verify tags are updated
+        $VersionsAfterRename = Get-VVVersion -Path $NewFilePath
+        $VersionsAfterRename.Count | Should -Be 2
+        $VersionsAfterRename.File | Should -Contain $NewFileName
     }
 }
