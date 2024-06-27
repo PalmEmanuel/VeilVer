@@ -5,36 +5,36 @@ online version:
 schema: 2.0.0
 ---
 
-# Rename-VVVersion
+# Sync-VVVersion
 
 ## SYNOPSIS
 
-Renames all git tags for a file path to its current file name.
+Renames all historic tags for a file to its current file name.
 
 ## SYNTAX
 
 ```
-Rename-VVVersion [-FilePath] <String> [<CommonParameters>]
+Sync-VVVersion [-Path] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
-The `Rename-VVVersion` command updates all git tags associated with a file's historical names to match its current file name. It uses existing commands like `Get-GitBlobTags`, `Remove-VVVersion`, and `Set-VVVersion` to find, remove, and recreate tags with the updated file path.
+Renames all historic tags for a file to its current file name.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Rename-VVVersion -FilePath "C:\path\to\new\document.md"
+PS C:\> Sync-VVVersion -FilePath "C:\path\to\new\document.md"
 ```
 
 This example updates all git tags for the file at "C:\path\to\new\document.md" to reflect its current file name, assuming it has been renamed from a previous path.
 
 ## PARAMETERS
 
-### -FilePath
+### -Path
 
-Specifies the path to the file for which to update git tags.
+The path of the file to rename all tags for.
 
 ```yaml
 Type: String

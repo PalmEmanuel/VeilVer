@@ -1,4 +1,4 @@
-function Rename-VVVersion {
+function Sync-VVVersion {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
@@ -26,14 +26,17 @@ function Rename-VVVersion {
 
     # Find all tags associated with the file's historical names
     $Tags = $HistoricalNames | ForEach-Object {
-        Get-GitBlobTags -RelativeRootPath $_
+        Get-GitBlobTag -RelativeRootPath $_
     }
 
     # Remove old tags and recreate them with the new file path
     foreach ($Tag in $Tags) {
         if ($Tag.File -ne $Path) {
             Remove-VVVersion -Tag $Tag.Tag
-            Set-VVVersion -Path $Path -Version $Tag.Version -Metadata $Tag.Metadata
+            Set-VVVersion -Path $Path -Version $Tag.Version -Metadata (
+                $Tag.Metadata.psobject.properties |
+                    ForEach-Object -Begin { $Metahash = @{} } -Process { $Metahash[$_.Name] = $_.Value } -End { $Metahash }    
+            )
         }
     }
 

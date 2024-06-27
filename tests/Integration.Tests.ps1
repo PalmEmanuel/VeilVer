@@ -1,8 +1,5 @@
 Describe "Integration Tests" {
     BeforeAll {
-        # Need to set user config for the commits to work on all platforms in pipeline
-        git config --global user.name "VeilVer"
-        git config --global user.email "veilver@pipe.how"
         # Set default branch name
         git config --global init.defaultBranch main
 
@@ -14,6 +11,11 @@ Describe "Integration Tests" {
         New-Item -ItemType Directory -Path $Repo1 -Force
         New-Item -ItemType Directory -Path $Repo2 -Force
         git init --bare $Repo2 --quiet
+        Push-Location $Repo2
+        # Need to set user config for the commits to work on all platforms in pipeline
+        git config user.name "VeilVer"
+        git config user.email "veilver@pipe.how"
+        Pop-Location
         $null = git clone $Repo2 $Repo1 2>&1
         Set-Location $Repo1
 
@@ -135,21 +137,23 @@ Describe "Integration Tests" {
         $RemoteTagsCountAfter | Should -BeExactly ($RemoteTagsCountBefore + 1)
     }
 
-    It "Correctly updates git tags after a file rename using Rename-VVVersion" {
+    It "Correctly updates git tags after a file rename using Sync-VVVersion" {
         # Rename the file
+        $VersionsBeforeRename = Get-VVVersion -Path $FilePath
+
         $NewFileName = "renamed_testfile.txt"
-        $NewFilePath = Join-Path -Path $TestDrive -ChildPath $NewFileName
+        $NewFilePath = Join-Path -Path $Repo1 -ChildPath $NewFileName
         Rename-Item -Path $FilePath -NewName $NewFileName
 
         git add $NewFilePath
-        git commit -mm "added new version"
+        git commit -m "added new version"
 
-        # Use Rename-VVVersion to update tags
-        { Rename-VVVersion -FilePath $NewFilePath } | Should -Not -Throw
+        # Use Sync-VVVersion to update tags
+        { Sync-VVVersion -Path $NewFilePath } | Should -Not -Throw
 
         # Verify tags are updated
         $VersionsAfterRename = Get-VVVersion -Path $NewFilePath
-        $VersionsAfterRename.Count | Should -Be 2
-        $VersionsAfterRename.File | Should -Contain $NewFileName
+        $VersionsAfterRename.Count | Should -Be $VersionsBeforeRename.Count
+        $VersionsAfterRename.Path | Should -Contain $NewFileName
     }
 }
