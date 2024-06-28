@@ -50,6 +50,7 @@ BeforeAll {
 
         Push-Location $DestinationPath
 
+        SetGitConfig
         SeedGitRepoFiles
 
         Pop-Location
@@ -81,6 +82,8 @@ Describe 'Integration Tests' {
         # Set up a temporary git repositories before tests
         $LocalRepoPath = "$TestDrive/local.git"
         $OriginRepoPath = "$TestDrive/origin.git"
+
+        Set-Location $TestDrive
         
         # Safety in case the code is run outside of Pester
         if (-not [string]::IsNullOrWhiteSpace($TestDrive)) {
