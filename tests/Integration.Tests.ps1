@@ -44,13 +44,10 @@ BeforeAll {
     
         New-Item -ItemType Directory -Path $DestinationPath -Force
 
-        SetGitConfig
-
         $null = git clone $Path $DestinationPath 2>&1
 
         Push-Location $DestinationPath
 
-        SetGitConfig
         SeedGitRepoFiles
 
         Pop-Location
@@ -89,6 +86,7 @@ Describe 'Integration Tests' {
             Remove-Item -Path $LocalRepoPath -Recurse -Force -ErrorAction SilentlyContinue
         }
         
+        SetGitConfig
         NewGitRepo -Path $OriginRepoPath -Bare
         CloneGitRepo -Path $OriginRepoPath $LocalRepoPath
         
