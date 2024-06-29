@@ -11,7 +11,6 @@ BeforeAll {
         )
 
         New-Item -ItemType Directory -Path $Path -Force
-        git config init.defaultBranch main
     
         if ($Bare.IsPresent) {
             git init --bare $Path --quiet
@@ -28,6 +27,7 @@ BeforeAll {
         [CmdletBinding()]
         param()
 
+        git config init.defaultBranch main
         git config user.name 'VeilVer'
         git config user.email 'veilver@pipe.how'
     }
@@ -44,15 +44,11 @@ BeforeAll {
     
         New-Item -ItemType Directory -Path $DestinationPath -Force
 
-        SetGitConfig
-
         $null = git clone $Path $DestinationPath 2>&1
 
         Push-Location $DestinationPath
-
         SetGitConfig
         SeedGitRepoFiles
-
         Pop-Location
     }
 
