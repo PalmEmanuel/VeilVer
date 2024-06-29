@@ -4,10 +4,12 @@ The format is based on and uses the types of changes according to [Keep a Change
 
 ## [Unreleased]
 
+## [1.3.0] - 2024-06-29
+
 ### Added
 
-- Added command Sync-VVVersion to rename previous versions for a renamed or moved file.
-- Added -All parameter to Get-VVVersion to get all versions for all files in a repo.
+-   Added command Sync-VVVersion to rename previous versions for a renamed or moved file.
+-   Added -All parameter to Get-VVVersion to get all versions for all files in a repo.
 
 ## [1.2.0] - 2024-05-30
 
@@ -38,7 +40,9 @@ The format is based on and uses the types of changes according to [Keep a Change
 -   Added the PowerShell module `Sampler` for common workflow with other modules.
 -   Added Pester tests.
 
-[Unreleased]: https://github.com/PalmEmanuel/VeilVer/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/PalmEmanuel/VeilVer/compare/v1.3.0...HEAD
+
+[1.3.0]: https://github.com/PalmEmanuel/VeilVer/compare/v1.2.0...v1.3.0
 
 [1.2.0]: https://github.com/PalmEmanuel/VeilVer/compare/v1.1.0...v1.2.0
 
