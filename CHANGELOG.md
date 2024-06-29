@@ -4,6 +4,11 @@ The format is based on and uses the types of changes according to [Keep a Change
 
 ## [Unreleased]
 
+### Added
+
+- Added command Sync-VVVersion to rename previous versions for a renamed or moved file.
+- Added -All parameter to Get-VVVersion to get all versions for all files in a repo.
+
 ## [1.2.0] - 2024-05-30
 
 ### Added

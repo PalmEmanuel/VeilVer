@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-Renames all historic tags for a file to its current file name.
+Renames all historic versions for a file to its current file name and path.
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Sync-VVVersion [-Path] <String> [<CommonParameters>]
 
 ## DESCRIPTION
 
-Renames all historic tags for a file to its current file name.
+Renames all historic version tags for a file to its current file name and path.
 
 ## EXAMPLES
 
@@ -28,7 +28,7 @@ Renames all historic tags for a file to its current file name.
 PS C:\> Sync-VVVersion -FilePath "C:\path\to\new\document.md"
 ```
 
-This example updates all git tags for the file at "C:\path\to\new\document.md" to reflect its current file name, assuming it has been renamed from a previous path.
+This example updates all versions for the file at "C:\path\to\new\document.md" to reflect its current file path, assuming it has been renamed from a previous path.
 
 ## PARAMETERS
 
