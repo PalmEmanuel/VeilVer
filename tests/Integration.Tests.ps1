@@ -78,8 +78,6 @@ Describe 'Integration Tests' {
         # Set up a temporary git repositories before tests
         $LocalRepoPath = "$TestDrive/local.git"
         $OriginRepoPath = "$TestDrive/origin.git"
-
-        Set-Location $TestDrive
         
         # Safety in case the code is run outside of Pester
         if (-not [string]::IsNullOrWhiteSpace($TestDrive)) {
@@ -108,7 +106,7 @@ Describe 'Integration Tests' {
     
     BeforeEach {
         Set-Location $LocalRepoPath
-
+        
         $File = (Get-ChildItem '*.txt')[0]
         $FilePath = $File.FullName
         $FileName = $File.Name
@@ -135,6 +133,15 @@ Describe 'Integration Tests' {
         $Versions = Get-VVVersion -Path $FilePath
         $Versions[0].Metadata.SpecialCharacters | Should -Be $SpecialCharacters
         $Versions[0].Metadata.Commit | Should -Be (git rev-parse --verify HEAD)
+    }
+    
+    It 'Gets all versions with Get-VVVersion -All' {
+        Get-VVVersion -All | Should -HaveCount 4
+        $SecondFile = (Get-ChildItem '*.txt')[1]
+        { Set-VVVersion -Path $SecondFile.FullName -Version '1.3.37' -Metadata $MetadataHash -WarningAction SilentlyContinue } | Should -Not -Throw
+        $AllVersions = Get-VVVersion -All
+        $AllVersions | Should -HaveCount 5
+        $AllVersions.Path | Should -Contain $SecondFile.Name
     }
 
     It 'Removes versions using Remove-VVVersion using Path and Version' {
