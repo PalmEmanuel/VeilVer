@@ -10,10 +10,15 @@ function Get-GitBlobTagName {
         [version]$Version,
         
         [Parameter(Mandatory, ParameterSetName = 'Pattern')]
-        [switch]$Pattern
+        [switch]$Pattern,
+
+        [Parameter(ParameterSetName = 'All')]
+        [switch]$All
     )
 
-    if ($Pattern) {
+    if ($All.IsPresent) {
+        $OutputString = "@VV/*"
+    } elseif ($Pattern) {
         $OutputString = "@VV/$RelativeRootPath/v*"
     } else {
         $OutputString = "@VV/$RelativeRootPath/v$Version"

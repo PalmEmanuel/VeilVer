@@ -1,7 +1,7 @@
 function Get-VVVersion {
     [CmdletBinding(DefaultParameterSetName = 'Path')]
     param (
-        [Parameter(Mandatory, ParameterSetName = 'Path')]
+        [Parameter(Mandatory, ValueFromPipeline, ParameterSetName = 'Path')]
         [Parameter(Mandatory, ParameterSetName = 'Checkout')]
         [ValidateScript({ Test-Path $_ -PathType Leaf }, ErrorMessage = 'Path must exist and be a file.')]
         [string]$Path,
@@ -15,8 +15,18 @@ function Get-VVVersion {
         [switch]$Checkout,
 
         [Parameter(ParameterSetName = 'Checkout')]
-        [switch]$Force
+        [switch]$Force,
+
+        [Parameter(ParameterSetName = 'All')]
+        [switch]$All
     )
+
+    if ($All.IsPresent) {
+        $Tags = Get-GitBlobTag -All
+        $Paths = $Tags | ForEach-Object { [Regex]::Match($_.Tag,'^@VV/(?<file>.*)/v[\d.]+$').Groups['file'].Value } | Select-Object -Unique
+        $Paths | ForEach-Object { Get-VVVersion -Path $_ -ErrorAction SilentlyContinue } | Write-Output
+        return
+    }
 
     # Get all tags based on file names
     $FileNames = Get-GitFileHistoryNames -Path $Path

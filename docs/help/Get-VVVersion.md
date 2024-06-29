@@ -24,6 +24,11 @@ Get-VVVersion -Path <String> -Version <Version> [-Checkout] [-Force]
  [<CommonParameters>]
 ```
 
+### All
+```
+Get-VVVersion [-All] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 
 Gets the hidden version of a document, based on git tags on the blob. If the `-Checkout` parameter is specified, it checks out the version as a file using git blob tags.
@@ -45,6 +50,22 @@ PS C:\> Get-VVVersion -Path "C:\path\to\document.md" -Checkout -Version 1.2.3
 Checks out version 1.2.3 of the document at "C:\path\to\document.md" as a file using git blob tags.
 
 ## PARAMETERS
+
+### -All
+
+Get all hidden versions of all files in the repository.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: All
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -Checkout
 
@@ -84,13 +105,25 @@ The path to the document to get the hidden versions of or to checkout a version 
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Path
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: Checkout
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

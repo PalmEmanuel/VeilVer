@@ -2,14 +2,21 @@ function Get-GitBlobTag {
     [CmdletBinding()]
     param (
         # Does not need to exist anymore, but must be a valid path
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ParameterSetName = 'Path')]
         [ValidateScript({ Test-Path $_ -IsValid }, ErrorMessage = 'Must be a valid path format, but does not need to exist (anymore).')]
-        [string]$RelativeRootPath
+        [string]$RelativeRootPath,
+
+        [Parameter(ParameterSetName = 'All')]
+        [switch]$All
     )
 
     # Example tag: VV/demo/docs/Contoso/Doc1.md/v1.0.0
     # Gets the pattern of tags with wildcard
-    $TagPattern = Get-GitBlobTagName -RelativeRootPath $RelativeRootPath -Pattern
+    if ($All.IsPresent) {
+        $TagPattern = Get-GitBlobTagName -All
+    } else {
+        $TagPattern = Get-GitBlobTagName -RelativeRootPath $RelativeRootPath -Pattern
+    }
 
     # Get tags with version data split by semicolon, sorted by version in descending order
     $Tags = Invoke-GitCommand 'tag', '--list', '--format=%(refname:short);%(contents)', '--sort=-version:refname', $TagPattern |
@@ -28,7 +35,7 @@ function Get-GitBlobTag {
             $Hash = (Invoke-GitCommand 'rev-list', '--objects', $Tag | Where-Object { -not [string]::IsNullOrWhiteSpace($_) -and $_ -notmatch $Tag }).Trim()
 
             [pscustomobject]@{
-                'Path' = $RelativeRootPath
+                'Path' = [string]::IsNullOrWhiteSpace($RelativeRootPath) ? [Regex]::Match($Tag,'^@VV/(?<file>.*)/v[\d.]+$').Groups['file'].Value : $RelativeRootPath
                 'Tag' = $Tag
                 'Hash' = $Hash
                 'Version' = $TagVersion
