@@ -215,7 +215,7 @@ Describe 'Integration Tests' {
         $RemoteTagsCountAfter | Should -BeExactly ($RemoteTagsCountBefore + 1)
     }
 
-    It 'Can sync tag names for a renamed file using Sync-VVVersion' {
+    It 'Can update tag names for a renamed file using Update-VVVersion' {
         # Setup new file name
         $NewFileName = 'renamed_testfile.txt'
         $NewFilePath = Join-Path -Path $LocalRepoPath -ChildPath $NewFileName
@@ -229,8 +229,8 @@ Describe 'Integration Tests' {
         git add $NewFilePath
         git commit -m 'added new version'
 
-        # Use Sync-VVVersion to update tags
-        { Sync-VVVersion -Path $NewFilePath -WarningAction SilentlyContinue } | Should -Not -Throw
+        # Use Update-VVVersion to update tags
+        { Update-VVVersion -Path $NewFilePath -WarningAction SilentlyContinue } | Should -Not -Throw
 
         # Verify tags are updated
         $VersionsAfterRename = Get-VVVersion -Path $NewFilePath

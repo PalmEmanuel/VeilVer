@@ -4,6 +4,10 @@ The format is based on and uses the types of changes according to [Keep a Change
 
 ## [Unreleased]
 
+### Changed
+
+- Renamed command Sync-VVVersion to Update-VVVersion.
+
 ## [1.3.0] - 2024-06-29
 
 ### Added

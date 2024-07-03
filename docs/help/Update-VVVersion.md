@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Sync-VVVersion
+# Update-VVVersion
 
 ## SYNOPSIS
 
@@ -14,7 +14,7 @@ Renames all historic versions for a file to its current file name and path.
 ## SYNTAX
 
 ```
-Sync-VVVersion [-Path] <String> [<CommonParameters>]
+Update-VVVersion [-Path] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,7 +25,7 @@ Renames all historic version tags for a file to its current file name and path.
 
 ### Example 1
 ```powershell
-PS C:\> Sync-VVVersion -FilePath "C:\path\to\new\document.md"
+PS C:\> Update-VVVersion -FilePath "C:\path\to\new\document.md"
 ```
 
 This example updates all versions for the file at "C:\path\to\new\document.md" to reflect its current file path, assuming it has been renamed from a previous path.
