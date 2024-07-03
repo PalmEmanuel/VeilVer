@@ -1,4 +1,4 @@
-function Sync-VVVersion {
+function Update-VVVersion {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]

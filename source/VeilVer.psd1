@@ -70,7 +70,7 @@
         'Push-VVVersion'
         'Remove-VVVersion'
         'Set-VVVersion'
-        'Sync-VVVersion'
+        'Update-VVVersion'
     )
     
     # Variables to export from this module
