@@ -174,7 +174,7 @@ Describe 'Integration Tests' {
         git add .
         git commit -m 'Committing version 3'
         Set-VVVersion -Path $FilePath -Version '3.0.0' -Metadata @{ Description = 'Specific version 3 for checkout test' }
-        
+
         # Verify the file content matches the specific version content before checkout
         Get-Content -Path $FilePath | Should -Be $Version3Content
 
@@ -183,6 +183,37 @@ Describe 'Integration Tests' {
 
         # Verify the file content matches the specific version content after checkout
         Get-Content -Path $FilePath | Should -Be $Version2Content
+    }
+
+    It 'Checks out a file version of a deleted file using the -Checkout parameter' {
+        # Get a file path to delete
+        $FilePathToDelete = (Get-ChildItem '*.txt')[-1]
+        # Create a version before deleting
+        Set-VVVersion -Path $FilePathToDelete -Version '0.0.1' -Metadata @{ Description = 'Creating a version before deleting' }
+        # Delete the file and commit the deletion
+        Remove-item $FilePathToDelete -Force
+        git add $FilePathToDelete
+        git commit -m 'Deleted a file'
+        # Verify the file is deleted
+        Get-Item -Path $FilePathToDelete -ErrorAction SilentlyContinue | Should -BeNull
+        # Checkout the version using the -Checkout parameter
+        Get-VVVersion -Path $FilePathToDelete -Checkout -Version '0.0.1'
+        # Verify the file is restored
+        Get-Item -Path $FilePathToDelete | Should -Not -BeNull
+    }
+
+    It 'Fails to check out a previous file version of a modified file using the -Checkout parameter without -Force' {
+        $NewContent = 'This is some new content.'
+        Set-Content -Path $FilePath -Value $NewContent
+
+        # Fail to checkout the version using the -Checkout parameter without -Force, since the file was modified
+        { Get-VVVersion -Path $FilePath -Checkout -Version '2.0.0' } | Should -Throw
+        
+        # Successfully override changes with -Checkout using -Force
+        { Get-VVVersion -Path $FilePath -Checkout -Version '2.0.0' -Force } | Should -Not -Throw
+        
+        # Verify the file content matches the specific version content after checkout
+        Get-Content -Path $FilePath | Should -Not -Be $NewContent
     }
 
     It 'Can Push a version to a default remote with Path and Version' {
