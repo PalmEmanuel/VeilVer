@@ -1,5 +1,5 @@
 function Remove-VVVersion {
-    [CmdletBinding(DefaultParameterSetName = 'Path')]
+    [CmdletBinding(DefaultParameterSetName = 'Path', SupportsShouldProcess, ConfirmImpact = 'High')]
     param (
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'Path')]
         [ValidateScript({ Test-Path $_ -IsValid }, ErrorMessage = 'Must be a valid path format, but does not need to exist (anymore).')]
@@ -9,7 +9,11 @@ function Remove-VVVersion {
         [version]$Version,
 
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'Tag')]
-        [string]$Tag
+        [string]$Tag,
+
+        [Parameter(ParameterSetName = 'Path')]
+        [Parameter(ParameterSetName = 'Tag')]
+        [switch]$Force
     )
 
     # If parameter set name
@@ -30,9 +34,15 @@ function Remove-VVVersion {
     }
 
     try {
-        Remove-GitBlobTag -Tag $Tag -ErrorAction Stop
-    
-        Write-Verbose "Successfully removed the hidden version tag '$Tag'."
+        if ($Force -and -not $Confirm){
+            $ConfirmPreference = 'None'
+        }
+
+        if ($PSCmdlet.ShouldProcess($Tag, 'Remove-VVVersion')) {
+            Remove-GitBlobTag -Tag $Tag -ErrorAction Stop
+        
+            Write-Verbose "Successfully removed the hidden version tag '$Tag'."
+        }
     }
     catch {
         throw "Failed to remove the hidden version tag '$Tag'."

@@ -32,7 +32,7 @@ function Update-VVVersion {
     # Remove old tags and recreate them with the new file path
     foreach ($Tag in $Tags) {
         if ($Tag.File -ne $Path) {
-            Remove-VVVersion -Tag $Tag.Tag
+            Remove-VVVersion -Tag $Tag.Tag -Force
             Set-VVVersion -Path $Path -Version $Tag.Version -Metadata (
                 $Tag.Metadata.psobject.properties |
                     ForEach-Object -Begin { $Metahash = @{} } -Process { $Metahash[$_.Name] = $_.Value } -End { $Metahash }    
