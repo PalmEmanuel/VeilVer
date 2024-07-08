@@ -3,7 +3,7 @@ function Get-VVVersion {
     param (
         [Parameter(Mandatory, ValueFromPipeline, ParameterSetName = 'Path')]
         [Parameter(Mandatory, ParameterSetName = 'Checkout')]
-        [ValidateScript({ Test-Path $_ -PathType Leaf }, ErrorMessage = 'Path must exist and be a file.')]
+        [ValidateScript({ Test-Path $_ -IsValid }, ErrorMessage = 'Must be a valid path format, but does not need to exist (anymore).')]
         [string]$Path,
         
         [Parameter(ParameterSetName = 'Path')]
