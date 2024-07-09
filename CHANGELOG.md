@@ -4,6 +4,14 @@ The format is based on and uses the types of changes according to [Keep a Change
 
 ## [Unreleased]
 
+### Added
+
+- Added command Clear-VVVersion to remove all hidden versions of a file.
+
+### Changed
+
+- General improvements of parameter interactions when getting and removing hidden versions.
+
 ## [1.4.0] - 2024-07-04
 
 ### Changed
