@@ -18,11 +18,13 @@ Install-Module -Name VeilVer
 
 The module provides the following commands:
 
-- `Get-VVVersion` to get the hidden version of a document.
-- `Set-VVVersion` to set the hidden version of a document.
+- `Get-VVVersion` to get hidden versions of a file.
+- `Clear-VVVersion` to remove all hidden versions of a file.
+- `Import-VVVersion` to pull versions from a remote repository.
+- `Push-VVVersion` to push versions to a remote repository.
 - `Remove-VVVersion` to remove a hidden version from a file.
-- `Import-VVVersion` to pull all versions or a specific version from a remote repository.
-- `Push-VVVersion` to push a version to a remote repository.
+- `Set-VVVersion` to set a hidden version of a file.
+- `Update-VVVersion` to update all hidden versions of a file to its current path.
 
 <!-- References -->
 [VeilVerDownloads]: https://img.shields.io/powershellgallery/dt/VeilVer
