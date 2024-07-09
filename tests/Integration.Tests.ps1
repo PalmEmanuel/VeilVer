@@ -134,7 +134,7 @@ Describe 'Integration Tests' {
     It 'Removes versions using Remove-VVVersion using Path and Version' {
         $Versions = Get-VVVersion -Path $FilePath
         $Versions.Count | Should -Be 4
-        Remove-VVVersion -Path $FilePath -Version '1.0.0'
+        Remove-VVVersion -Path $FilePath -Version '1.0.0' -Confirm:$false
         $Versions = Get-VVVersion -Path $FilePath
         $Versions.Count | Should -Be 3
     }
@@ -142,7 +142,7 @@ Describe 'Integration Tests' {
     It 'Removes versions using Remove-VVVersion using Tag' {
         $Versions = Get-VVVersion -Path $FilePath
         $Versions.Count | Should -Be 3
-        Remove-VVVersion -Tag $Versions[1].Tag
+        Remove-VVVersion -Tag $Versions[1].Tag -Force
         $Versions = Get-VVVersion -Path $FilePath
         $Versions.Count | Should -Be 2
     }
@@ -251,8 +251,16 @@ Describe 'Integration Tests' {
         { Update-VVVersion -Path $NewFilePath -WarningAction SilentlyContinue } | Should -Not -Throw
 
         # Verify tags are updated
-        $VersionsAfterRename = Get-VVVersion -Path $NewFilePath
+        $VersionsAfterRename = Get-VVVersion -Path $NewFilePath -WarningAction SilentlyContinue
         $VersionsAfterRename.Count | Should -Be $VersionsBeforeRename.Count
         $VersionsAfterRename.Path | Should -Contain $NewFileName
+    }
+
+    It 'Can clear all versions for a file using Clear-VVVersion' {
+        $Versions = Get-VVVersion -Path $FilePath
+        $Versions.Count | Should -Not -Be 0
+        Clear-VVVersion -Path $FilePath -Force -WarningAction SilentlyContinue
+        $Versions = Get-VVVersion -Path $FilePath -WarningAction SilentlyContinue
+        $Versions.Count | Should -Be 0
     }
 }

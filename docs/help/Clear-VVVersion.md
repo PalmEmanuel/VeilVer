@@ -5,38 +5,33 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-VVVersion
+# Clear-VVVersion
 
 ## SYNOPSIS
 
-Remove a specific version from a file.
+Removes all hidden versions from a file, including versions for previous names or paths.
 
 ## SYNTAX
 
-### Tag (Default)
 ```
-Remove-VVVersion -Tag <String[]> [-Force] [-WhatIf] [-Confirm]
+Clear-VVVersion [-Path] <String> [-Force] [-WhatIf] [-Confirm]
  [<CommonParameters>]
-```
-
-### Path
-```
-Remove-VVVersion [-Path] <String> [-Version] <Version> [-Force] [-WhatIf]
- [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
-Remove a specific version from a file.
+Removes all hidden versions from a file, including versions for previous names or paths.
+
+Essentially the same as `Get-VVVersion -Path $Path | Remove-VVVersion`.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Remove-VVVersion -Path "C:\path\to\document.md" -Version 1.0.0
+PS C:\> Clear-VVVersion -Path "C:\path\to\file.txt" -Confirm:$false
 ```
 
-Remove the version 1.0.0 from the file at the specified path.
+Removes all hidden versions from the file `C:\path\to\file.txt`.
 
 ## PARAMETERS
 
@@ -73,54 +68,23 @@ Accept wildcard characters: False
 
 ### -Path
 
-The path to the file to remove the hidden version from.
+The path to the file to remove versions from.
 
 ```yaml
 Type: String
-Parameter Sets: Path
+Parameter Sets: (All)
 Aliases:
 
 Required: True
 Position: 0
 Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -Tag
-
-The full version tag to remove, instead of a specific file and version, such as "@VV/path/to/file/v1.0.0"
-
-```yaml
-Type: String[]
-Parameter Sets: Tag
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
-Accept wildcard characters: False
-```
-
-### -Version
-
-The version to remove from the file.
-
-```yaml
-Type: Version
-Parameter Sets: Path
-Aliases:
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen if the cmdlet runs. The cmdlet is not run.
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
 Type: SwitchParameter
