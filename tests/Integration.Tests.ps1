@@ -18,18 +18,6 @@ BeforeAll {
         else {
             git init $Path --quiet
         }
-
-        Push-Location $Path
-        SetGitConfig
-        Pop-Location
-    }
-    function SetGitConfig {
-        [CmdletBinding()]
-        param()
-
-        git config init.defaultBranch main
-        git config user.name 'VeilVer'
-        git config user.email 'veilver@pipe.how'
     }
     function CloneGitRepo {
         [CmdletBinding()]
@@ -47,7 +35,6 @@ BeforeAll {
         $null = git clone $Path $DestinationPath 2>&1
 
         Push-Location $DestinationPath
-        SetGitConfig
         SeedGitRepoFiles
         Pop-Location
     }
