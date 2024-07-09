@@ -4,13 +4,15 @@ The format is based on and uses the types of changes according to [Keep a Change
 
 ## [Unreleased]
 
+## [1.4.1] - 2024-07-09
+
 ### Added
 
-- Added command Clear-VVVersion to remove all hidden versions of a file.
+-   Added command Clear-VVVersion to remove all hidden versions of a file.
 
 ### Changed
 
-- General improvements of parameter interactions when getting and removing hidden versions.
+-   General improvements of parameter interactions when getting and removing hidden versions.
 
 ## [1.4.0] - 2024-07-04
 
@@ -54,7 +56,9 @@ The format is based on and uses the types of changes according to [Keep a Change
 -   Added the PowerShell module `Sampler` for common workflow with other modules.
 -   Added Pester tests.
 
-[Unreleased]: https://github.com/PalmEmanuel/VeilVer/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/PalmEmanuel/VeilVer/compare/v1.4.1...HEAD
+
+[1.4.1]: https://github.com/PalmEmanuel/VeilVer/compare/v1.4.0...v1.4.1
 
 [1.4.0]: https://github.com/PalmEmanuel/VeilVer/compare/v1.3.0...v1.4.0
 
