@@ -8,21 +8,25 @@ function Clear-VVVersion {
         [Parameter()]
         [switch]$Force
     )
-    
-    $Versions = Get-VVVersion -Path $Path
-    if ($null -ne $Versions) {
 
+    begin {
         if ($Force -and -not $Confirm){
             $ConfirmPreference = 'None'
         }
+    }
 
-        $Versions.Tag | ForEach-Object {
-            if ($PSCmdlet.ShouldProcess($_, 'Remove-VVVersion')) {
-                Remove-VVVersion -Tag $_
+    process {
+        $Versions = Get-VVVersion -Path $Path
+        
+        if ($null -ne $Versions) {
+            $Versions.Tag | ForEach-Object {
+                if ($PSCmdlet.ShouldProcess($_, 'Remove-VVVersion')) {
+                    Remove-VVVersion -Tag $_
+                }
             }
         }
-    }
-    else {
-        Write-Verbose "No hidden version tags found for the path '$Path'."
+        else {
+            Write-Verbose "No hidden version tags found for the path '$Path'."
+        }
     }
 }

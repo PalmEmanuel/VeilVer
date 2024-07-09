@@ -1,5 +1,5 @@
 function Remove-VVVersion {
-    [CmdletBinding(DefaultParameterSetName = 'Path', SupportsShouldProcess, ConfirmImpact = 'High')]
+    [CmdletBinding(DefaultParameterSetName = 'Tag', SupportsShouldProcess, ConfirmImpact = 'High')]
     param (
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'Path')]
         [ValidateScript({ Test-Path $_ -IsValid }, ErrorMessage = 'Must be a valid path format, but does not need to exist (anymore).')]
@@ -8,43 +8,49 @@ function Remove-VVVersion {
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'Path')]
         [version]$Version,
 
-        [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'Tag')]
-        [string]$Tag,
+        [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName, ParameterSetName = 'Tag')]
+        [string[]]$Tag,
 
         [Parameter(ParameterSetName = 'Path')]
         [Parameter(ParameterSetName = 'Tag')]
         [switch]$Force
     )
 
-    # If parameter set name
-    if ($PSCmdlet.ParameterSetName -eq 'Path') {
-        # Get all tags based on file names
-        $FileNames = Get-GitFileHistoryNames -Path $Path
-
-        $Tags = $FileNames | ForEach-Object {
-            Get-GitBlobTag -RelativeRootPath $_
-        }
-
-        $Tag = $Tags | Where-Object { $_.Version -eq $Version } | Select-Object -ExpandProperty Tag
-        
-        if ($null -eq $Tag) {
-            Write-Warning "No hidden version tags found for the file '$Path' with version '$Version'."
-            return
-        }
-    }
-
-    try {
-        if ($Force -and -not $Confirm){
+    begin {
+        if ($Force -and -not $Confirm) {
             $ConfirmPreference = 'None'
         }
-
-        if ($PSCmdlet.ShouldProcess($Tag, 'Remove-VVVersion')) {
-            Remove-GitBlobTag -Tag $Tag -ErrorAction Stop
-        
-            Write-Verbose "Successfully removed the hidden version tag '$Tag'."
-        }
     }
-    catch {
-        throw "Failed to remove the hidden version tag '$Tag'."
+
+    process {
+        # If parameter set name
+        if ($PSCmdlet.ParameterSetName -eq 'Path') {
+            # Get all tags based on file names
+            $FileNames = Get-GitFileHistoryNames -Path $Path
+
+            $Tags = $FileNames | ForEach-Object {
+                Get-GitBlobTag -RelativeRootPath $_
+            }
+
+            $Tag = $Tags | Where-Object { $_.Version -eq $Version } | Select-Object -ExpandProperty Tag
+            
+            if ($null -eq $Tag) {
+                Write-Warning "No hidden version tags found for the file '$Path' with version '$Version'."
+                return
+            }
+        }
+
+        foreach ($CurrentTag in $Tag) {
+            try {
+                if ($PSCmdlet.ShouldProcess($CurrentTag, 'Remove-VVVersion')) {
+                    Remove-GitBlobTag -Tag $CurrentTag -ErrorAction Stop
+        
+                    Write-Verbose "Successfully removed the hidden version tag '$CurrentTag'."
+                }
+            }
+            catch {
+                throw "Failed to remove the hidden version tag '$CurrentTag'."
+            }
+        }
     }
 }

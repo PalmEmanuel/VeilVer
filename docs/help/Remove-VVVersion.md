@@ -13,16 +13,16 @@ Remove a specific version from a file.
 
 ## SYNTAX
 
-### Path (Default)
+### Tag (Default)
 ```
-Remove-VVVersion -Path <String> -Version <Version> [-Force] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+Remove-VVVersion -Tag <String[]> [-Force] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
-### Tag
+### Path
 ```
-Remove-VVVersion -Tag <String> [-Force] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+Remove-VVVersion [-Path] <String> [-Version] <Version> [-Force] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -81,7 +81,7 @@ Parameter Sets: Path
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
@@ -92,14 +92,14 @@ Accept wildcard characters: False
 The full version tag to remove, instead of a specific file and version, such as "@VV/path/to/file/v1.0.0"
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: Tag
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -113,7 +113,7 @@ Parameter Sets: Path
 Aliases:
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
